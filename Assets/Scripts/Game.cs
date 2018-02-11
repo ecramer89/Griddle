@@ -25,7 +25,6 @@ public class Game : MonoBehaviour {
 			tile.Rotate();
 		}
 		if(Input.GetMouseButtonDown(1)){
-			tile.Toggle();
 			ToggleReachable(tile);
 			CheckWin();
 		}
@@ -36,34 +35,32 @@ public class Game : MonoBehaviour {
 	//if you did this recursively, it would function like a graph.
 	private void ToggleReachable(GridTile clicked){
 
-
-
 		Column column = clicked.column;
 	
 		List<GridTile> columnTiles = column.GetColumnTiles();
 		List<GridTile> rowTiles = Column.GetRow(clicked.y);
 
 
+		int totalToggled = 0;
 
 		for(int i=0;i<clicked.directions.Length; i++){
-			
-			switch(clicked.directions[i]){
+			Direction direction = clicked.directions[i];
+			switch(direction){
 				case Direction.NORTH:
-
-					ToggleAdjacent(clicked, columnTiles,clicked.y, -1);
-					break;
-				case Direction.SOUTH:
-					ToggleAdjacent(clicked, columnTiles,clicked.y, 1);
+			    case Direction.SOUTH:
+					totalToggled += ToggleAdjacent(clicked, columnTiles,direction);
 					break;
 				case Direction.EAST:
-					ToggleAdjacent(clicked, rowTiles,clicked.x, 1);
-					break;
 				case Direction.WEST:
-					ToggleAdjacent(clicked, rowTiles,clicked.x, -1);
+					totalToggled += ToggleAdjacent(clicked, rowTiles,direction);
 					break;
-
 			}
 
+		}
+
+		//only toggle the clicked tile if it toggled at least one other tile.
+		if(totalToggled > 0) {
+			clicked.Toggle();
 		}
 
 
@@ -73,34 +70,66 @@ public class Game : MonoBehaviour {
 
 	private Func<int, bool> untilStart = (i) => i > - 1;
 
-	private void ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, int clickedCoordinate, int direction){
+	//returns the number of tiles that were toggled.
+	private int ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, Direction direction){
 		
+		int advancer = direction == Direction.NORTH || direction == Direction.WEST ? -1 : 1;
+
+		int clickedCoordinate = direction == Direction.NORTH || direction == Direction.SOUTH ? clicked.y : clicked.x;
+
+
 		Func<int, bool> untilEnd = (i) => i < adjacent.Count;
 
-		int advancer = direction/(Math.Abs(direction));
 
 		Func<int, bool> condition = advancer < 0 ? untilStart : untilEnd;
 
-		int start = clickedCoordinate + advancer;
+		int next = clickedCoordinate + advancer;
 
+		int numToggled = 0;
 
+		while(condition(next)){
 
-		while(condition(start)){
-
-			GridTile tile = adjacent[start];
+			GridTile tile = adjacent[next];
 
 			if(tile.state == TileState.INACTIVE){
-				return;
+				return numToggled;
 			}
 
 
+
+			//depending on current direction, if tile doesn't contain opposite direction, then break
+			//since it doesn't connect
+			switch(direction){
+			   case Direction.EAST:
+				if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return numToggled;
+					break;
+				case Direction.NORTH:
+				if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return numToggled;
+					break;
+				case Direction.WEST:
+				if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return numToggled;
+					break;
+				case Direction.SOUTH:
+				if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return numToggled;
+					break;
+			}
+
+
+
 			tile.Toggle();
+			numToggled++;
+
+			//the line cannot continue from this tile.
+			if(!tile.directions.AsEnumerable().Contains(direction)) return numToggled;
 
 
-			start += advancer;
-
+		
+			next += advancer;
 	
 		}
+
+		return numToggled;
+
 
 	}
 
