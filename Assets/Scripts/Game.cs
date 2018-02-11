@@ -12,30 +12,22 @@ public class Game : MonoBehaviour {
 		instance = this;
 	}
 
-	// Use this for initialization
-	void Start () {
-		
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 
 	public void MakeMove(GridTile clicked){
-		Debug.Log("tile clicked");
-		clicked.Rotate();
+
 
 		Column column = clicked.column;
 	
 		List<GridTile> columnTiles = column.GetColumnTiles();
 		List<GridTile> rowTiles = Column.GetRow(clicked.y);
 
+
+
 		for(int i=0;i<clicked.directions.Length; i++){
+			
 			switch(clicked.directions[i]){
 				case Direction.NORTH:
+
 					ToggleAdjacent(clicked, columnTiles,clicked.y, -1);
 					break;
 				case Direction.SOUTH:
@@ -56,18 +48,20 @@ public class Game : MonoBehaviour {
 
 	}
 		
-	private Func<int, int> forward = (i) => ++i;
-	private Func<int, int> backward = (i) => --i;
+
 	private Func<int, bool> untilStart = (i) => i > - 1;
 
-	private void ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, int start, int direction){
+	private void ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, int clickedCoordinate, int direction){
 		
 		Func<int, bool> untilEnd = (i) => i < adjacent.Count;
 
-		Func<int, bool> condition = direction < 0 ? untilStart : untilEnd;
-		Func<int,int> advance = direction < 0 ? backward: forward;
+		int advancer = direction/(Math.Abs(direction));
 
-	
+		Func<int, bool> condition = advancer < 0 ? untilStart : untilEnd;
+
+		int start = clickedCoordinate;
+
+
 		while(condition(start)){
 
 			GridTile tile = adjacent[start];
@@ -80,7 +74,7 @@ public class Game : MonoBehaviour {
 			tile.Toggle();
 
 
-			start = advance(start);
+			start += advancer;
 
 	
 		}
