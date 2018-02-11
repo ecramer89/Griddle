@@ -4,16 +4,36 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+public enum MouseButton{
+	LEFT, RIGHT
+}
+
 public class Game : MonoBehaviour {
 
 	public static Game instance;
+
+	private bool gameWon = false;
 
 	void Awake(){
 		instance = this;
 	}
 
+	public void HandleMouseOverTile(GridTile tile){
+		if(gameWon) return;
 
-	public void MakeMove(GridTile clicked){
+		if(Input.GetMouseButtonDown(0)){
+			tile.Rotate();
+		}
+		if(Input.GetMouseButtonDown(1)){
+			ToggleReachable(tile);
+		}
+		//else maybe make the tile glow or something to indicate clickable
+
+	}
+
+	//if you did this recursively, it would function like a graph.
+	private void ToggleReachable(GridTile clicked){
+
 
 
 		Column column = clicked.column;
@@ -78,6 +98,23 @@ public class Game : MonoBehaviour {
 
 	
 		}
+
+	}
+
+
+	private void CheckWin(){
+		gameWon = true;
+		foreach(GridTile tile in GridTile.All()){
+			if(tile.state == TileState.START){
+				gameWon = false;
+				break;
+			}
+		}
+
+		if(gameWon){
+			GameObject.Find("Text").SetActive(true);
+		}
+
 
 	}
 }

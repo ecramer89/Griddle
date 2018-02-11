@@ -13,8 +13,8 @@ public enum Direction{
 }
 
 public enum TileState{
-	ACTIVE_A,
-	ACTVE_B,
+	START,
+	END,
 	INACTIVE
 }
 
@@ -47,13 +47,10 @@ public class GridTile : MonoBehaviour {
 
 	//use on mouse over instead of onMouseDown since former only invoked if user presses left mouse button
 	public void OnMouseOver(){
+		
+		Game.instance.HandleMouseOverTile(this);
 
-		if(Input.GetMouseButtonDown(0)){
-			Rotate();
-		}
-		if(Input.GetMouseButtonDown(1)){
-			Game.instance.MakeMove(this);
-		}
+
 	}
 
 
@@ -75,14 +72,14 @@ public class GridTile : MonoBehaviour {
 	public void Toggle(){
 		if(state == TileState.INACTIVE) return;
 
-		state = state == TileState.ACTIVE_A ? TileState.ACTVE_B : TileState.ACTIVE_A;
-		sprite.color = state == TileState.ACTIVE_A ? Settings.global.squareColorA : Settings.global.squareColorB;
+		state = state == TileState.START ? TileState.END : TileState.START;
+		sprite.color = state == TileState.START ? Settings.global.squareColorA : Settings.global.squareColorB;
 
 	}
 
 
 	//static
-	public static List<GridTile> AllSquares(){
+	public static List<GridTile> All(){
 		return TILES_LIST;
 
 	}
