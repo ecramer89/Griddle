@@ -100,15 +100,17 @@ public class Game : MonoBehaviour {
 
 		GridTile nextTile = adjacent[next];
 
+		if(nextTile.state == TileState.NULL) return numTilesToggled;
+
 		if(visited.Contains(nextTile)) return numTilesToggled;
 
 		//depending on current direction, if tile doesn't contain opposite direction, then break
 		//since it doesn't connect
 		if(!nextTile.directions.AsEnumerable().Contains(direction.Opposite())) return numTilesToggled;
-
+	
 		if(nextTile.state == TileState.INACTIVE) {
 			if(from == clicked){
-				nextTile.Activate();
+				nextTile.SetState(TileState.START);
 			}
 			else return numTilesToggled;
 		}

@@ -5,6 +5,16 @@ using System;
 
 public class TilePlaceholder : MonoBehaviour {
 
+	public TileState state;
+
+	public void Start(){
+		//NULL tiles are virtually absent from the game.
+		//just so that in the inspector I can mark a tile as null by disabling its sprite renderer.
+		if(!GetComponent<SpriteRenderer>().enabled){
+			state = TileState.NULL;
+		}
+
+	}
 
 	public Direction[] GetDirections(){
 		Sprite sprite = GetComponent<SpriteRenderer>().sprite;

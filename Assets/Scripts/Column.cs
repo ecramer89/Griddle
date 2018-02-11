@@ -52,13 +52,7 @@ public class Column : MonoBehaviour {
 			tile.column = this;
 			SpriteRenderer sr = placeholder.GetComponent<SpriteRenderer>();
 			tile.GetComponent<SpriteRenderer>().sprite = sr.sprite;
-
-			if(!sr.enabled){
-				tile.Deactivate();
-			} else {
-				tile.Activate();
-			}
-
+			tile.SetState(placeholder.state);
 			tiles.Add(tile);
 			Destroy(sr);
 		}

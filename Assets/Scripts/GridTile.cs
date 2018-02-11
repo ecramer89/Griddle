@@ -35,7 +35,8 @@ static class DirectionMethods{
 public enum TileState{
 	START,
 	END,
-	INACTIVE
+	INACTIVE,
+	NULL
 }
 
 public class GridTile : MonoBehaviour {
@@ -68,6 +69,7 @@ public class GridTile : MonoBehaviour {
 	//use on mouse over instead of onMouseDown since former only invoked if user presses left mouse button
 	public void OnMouseOver(){
 		
+		if(state == TileState.NULL) return;
 		if(state == TileState.INACTIVE) return;
 
 		Game.instance.HandleMouseOverTile(this);
@@ -85,24 +87,40 @@ public class GridTile : MonoBehaviour {
 			
 	}
 
-	public void Activate(){
-		state = TileState.START;
-		sprite.color = Settings.global.tileStartColor;
-	
-	}
+	public void SetState(TileState state){
+		this.state = state;
+		switch(this.state){
+			case TileState.NULL:
+				sprite.enabled = false;
+			break;
+			case TileState.END:
+				sprite.color =  Settings.global.tileEndColor;
+			break;
+			case TileState.START:
+				sprite.color =  Settings.global.tileStartColor;
+			break;
+			case TileState.INACTIVE:
+				sprite.color =  Settings.global.tileInactiveColor;
+			break;
+		}
 
-	public void Deactivate(){
-		state = TileState.INACTIVE;
-		sprite.color = Settings.global.tileInactiveColor;
 	}
+		
 
 
 	public void Toggle(){
-		if(state == TileState.INACTIVE) return;
 
-		state = state == TileState.START ? TileState.END : TileState.START;
-		sprite.color = state == TileState.START ? Settings.global.tileStartColor : Settings.global.tileEndColor;
-
+		switch(state){
+			case TileState.NULL:
+			case TileState.INACTIVE:
+				return;
+			case TileState.START:
+				SetState(TileState.END);
+			break;
+			case TileState.END:
+				SetState(TileState.START);
+			break;
+		}
 	}
 
 
