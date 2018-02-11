@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour {
 
-	public Color squareColorA;
-	public Color squareColorB;
+	public Color tileInactiveColor;
+	public Color tileStartColor;
+	public Color tileEndColor;
 
 	public string winText = "You Win!";
 

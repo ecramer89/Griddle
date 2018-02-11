@@ -753,6 +753,66 @@ Prefab:
       propertyPath: m_RootOrder
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileInactiveColor.g
+      value: 0.41691175
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileInactiveColor.b
+      value: 0.385705
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileInactiveColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileStartColor.r
+      value: 0.46929064
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileStartColor.g
+      value: 0.9117647
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileStartColor.b
+      value: 0.9082796
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileStartColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileEndColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileEndColor.r
+      value: 0.88235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileEndColor.g
+      value: 0.08434254
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileEndColor.b
+      value: 0.6291908
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
+        type: 2}
+      propertyPath: tileInactiveColor.r
+      value: 0.42647058
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6876d3dcbdd194eb99e8388d035b96bd, type: 2}
   m_IsPrefabParent: 0

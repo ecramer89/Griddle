@@ -68,11 +68,10 @@ public class GridTile : MonoBehaviour {
 	//use on mouse over instead of onMouseDown since former only invoked if user presses left mouse button
 	public void OnMouseOver(){
 		
+		if(state == TileState.INACTIVE) return;
+
 		Game.instance.HandleMouseOverTile(this);
-
-
-
-
+	
 	}
 
 
@@ -83,11 +82,18 @@ public class GridTile : MonoBehaviour {
 		for(int i=0;i<directions.Length;i++){
 			directions[i]= (Direction)(((int)(directions[i]) + 1) % Enum.GetValues(typeof(Direction)).Length);
 		}
+			
+	}
 
+	public void Activate(){
+		state = TileState.START;
+		sprite.color = Settings.global.tileStartColor;
 	
+	}
 
-
-
+	public void Deactivate(){
+		state = TileState.INACTIVE;
+		sprite.color = Settings.global.tileInactiveColor;
 	}
 
 
@@ -95,7 +101,7 @@ public class GridTile : MonoBehaviour {
 		if(state == TileState.INACTIVE) return;
 
 		state = state == TileState.START ? TileState.END : TileState.START;
-		sprite.color = state == TileState.START ? Settings.global.squareColorA : Settings.global.squareColorB;
+		sprite.color = state == TileState.START ? Settings.global.tileStartColor : Settings.global.tileEndColor;
 
 	}
 

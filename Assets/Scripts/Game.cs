@@ -33,7 +33,7 @@ public class Game : MonoBehaviour {
 
 		if(Input.GetMouseButtonDown(1)){
 			
-			int totalToggled = ToggleReachable(tile, 0, new HashSet<GridTile>());
+			int totalToggled = ToggleReachable(tile, tile, 0, new HashSet<GridTile>());
 
 			if(totalToggled > 0){
 				tile.Toggle();
@@ -46,7 +46,7 @@ public class Game : MonoBehaviour {
 	}
 
 
-	private int ToggleReachable(GridTile from, int numTilesToggled, HashSet<GridTile> visited){
+	private int ToggleReachable(GridTile clicked, GridTile from, int numTilesToggled, HashSet<GridTile> visited){
 
 		visited.Add(from);
 
@@ -61,11 +61,11 @@ public class Game : MonoBehaviour {
 			switch(direction){
 				case Direction.NORTH:
 			    case Direction.SOUTH:
-				numTilesToggled += ToggleNext(from, columnTiles,direction, numTilesToggled, visited);
+				numTilesToggled += ToggleNext(clicked, from, columnTiles,direction, numTilesToggled, visited);
 					break;
 				case Direction.EAST:
 				case Direction.WEST:
-				numTilesToggled += ToggleNext(from, rowTiles,direction, numTilesToggled, visited);
+				numTilesToggled += ToggleNext(clicked, from, rowTiles,direction, numTilesToggled, visited);
 					break;
 			}
 
@@ -81,7 +81,7 @@ public class Game : MonoBehaviour {
 	private Func<int, bool> untilStart = (i) => i > - 1;
 
 	//returns the number of tiles that were toggled.
-	private int ToggleNext(GridTile from, List<GridTile> adjacent, Direction direction, int numTilesToggled, HashSet<GridTile> visited){
+	private int ToggleNext(GridTile clicked, GridTile from, List<GridTile> adjacent, Direction direction, int numTilesToggled, HashSet<GridTile> visited){
 		
 		int advancer = direction == Direction.NORTH || direction == Direction.WEST ? -1 : 1;
 
@@ -102,18 +102,21 @@ public class Game : MonoBehaviour {
 
 		if(visited.Contains(nextTile)) return numTilesToggled;
 
-
-		if(nextTile.state == TileState.INACTIVE) return numTilesToggled;
-
-
 		//depending on current direction, if tile doesn't contain opposite direction, then break
 		//since it doesn't connect
 		if(!nextTile.directions.AsEnumerable().Contains(direction.Opposite())) return numTilesToggled;
 
+		if(nextTile.state == TileState.INACTIVE) {
+			if(from == clicked){
+				nextTile.Activate();
+			}
+			else return numTilesToggled;
+		}
+
 		nextTile.Toggle();
 
 	
-	    return ToggleReachable(nextTile, ++numTilesToggled, visited);
+	    return ToggleReachable(clicked, nextTile, ++numTilesToggled, visited);
 
 
 	}

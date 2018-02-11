@@ -54,8 +54,9 @@ public class Column : MonoBehaviour {
 			tile.GetComponent<SpriteRenderer>().sprite = sr.sprite;
 
 			if(!sr.enabled){
-				tile.GetComponent<SpriteRenderer>().enabled = false;
-				tile.state = TileState.INACTIVE;
+				tile.Deactivate();
+			} else {
+				tile.Activate();
 			}
 
 			tiles.Add(tile);
