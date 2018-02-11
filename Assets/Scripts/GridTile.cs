@@ -4,12 +4,32 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-
 public enum Direction{
 	NORTH,
 	EAST,
 	SOUTH, 
 	WEST
+}
+
+static class DirectionMethods{
+
+	public static Direction Opposite(this Direction direction){
+		switch(direction){
+		case Direction.NORTH:
+			return Direction.SOUTH;
+		case Direction.EAST:
+			return Direction.WEST;
+		case Direction.SOUTH:
+			return Direction.NORTH;
+		case Direction.WEST:
+			return Direction.EAST;
+		}
+
+		throw new Exception(String.Format("Did you add an illegal direction? No opposite found for {0}", direction.ToString()));
+
+	}
+
+
 }
 
 public enum TileState{

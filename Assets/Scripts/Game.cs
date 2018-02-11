@@ -14,9 +14,14 @@ public class Game : MonoBehaviour {
 	public static Game instance;
 
 	private bool gameWon = false;
+	private Text text;
 
 	void Awake(){
 		instance = this;
+	}
+
+	void Start(){
+		text = GameObject.Find("Text").GetComponent<Text>();
 	}
 
 	public void HandleMouseOverTile(GridTile tile){
@@ -25,6 +30,7 @@ public class Game : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0)){
 			tile.Rotate();
 		}
+
 		if(Input.GetMouseButtonDown(1)){
 			
 			int totalToggled = ToggleReachable(tile, 0, new HashSet<GridTile>());
@@ -92,42 +98,22 @@ public class Game : MonoBehaviour {
 		if(!condition(next)) return numTilesToggled;
 
 
-		GridTile tile = adjacent[next];
+		GridTile nextTile = adjacent[next];
 
-		if(visited.Contains(tile)) return numTilesToggled;
+		if(visited.Contains(nextTile)) return numTilesToggled;
 
 
-		if(tile.state == TileState.INACTIVE) return numTilesToggled;
-
+		if(nextTile.state == TileState.INACTIVE) return numTilesToggled;
 
 
 		//depending on current direction, if tile doesn't contain opposite direction, then break
 		//since it doesn't connect
-		switch(direction){
-		   case Direction.EAST:
-			if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return numTilesToggled;
-				break;
-			case Direction.NORTH:
-			if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return numTilesToggled;
-				break;
-			case Direction.WEST:
-			if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return numTilesToggled;
-				break;
-			case Direction.SOUTH:
-			if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return numTilesToggled;
-				break;
-		}
+		if(!nextTile.directions.AsEnumerable().Contains(direction.Opposite())) return numTilesToggled;
 
+		nextTile.Toggle();
 
-		tile.Toggle();
-
-		numTilesToggled++;
-
-		//the line cannot continue from this tile.
-		//if(!tile.directions.AsEnumerable().Contains(direction)) return tilesToggled;
-
-
-	    return ToggleReachable(tile, numTilesToggled, visited);
+	
+	    return ToggleReachable(nextTile, ++numTilesToggled, visited);
 
 
 	}
@@ -143,7 +129,8 @@ public class Game : MonoBehaviour {
 		}
 
 		if(gameWon){
-			GameObject.Find("Text").GetComponent<Text>().enabled=true; 
+			text.text = Settings.global.winText;
+			text.enabled=true; 
 		}
 
 
