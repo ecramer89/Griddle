@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-
+using UnityEngine.UI;
 public enum MouseButton{
 	LEFT, RIGHT
 }
@@ -25,7 +25,9 @@ public class Game : MonoBehaviour {
 			tile.Rotate();
 		}
 		if(Input.GetMouseButtonDown(1)){
+			tile.Toggle();
 			ToggleReachable(tile);
+			CheckWin();
 		}
 		//else maybe make the tile glow or something to indicate clickable
 
@@ -79,7 +81,8 @@ public class Game : MonoBehaviour {
 
 		Func<int, bool> condition = advancer < 0 ? untilStart : untilEnd;
 
-		int start = clickedCoordinate;
+		int start = clickedCoordinate + advancer;
+
 
 
 		while(condition(start)){
@@ -112,7 +115,7 @@ public class Game : MonoBehaviour {
 		}
 
 		if(gameWon){
-			GameObject.Find("Text").SetActive(true);
+			GameObject.Find("Text").GetComponent<Text>().enabled=true; 
 		}
 
 
