@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using UnityEngine.UI;
+
 public enum MouseButton{
 	LEFT, RIGHT
 }
@@ -25,43 +26,46 @@ public class Game : MonoBehaviour {
 			tile.Rotate();
 		}
 		if(Input.GetMouseButtonDown(1)){
-			ToggleReachable(tile);
+			
+			int totalToggled = ToggleReachable(tile, 0, new HashSet<GridTile>());
+
+			if(totalToggled > 0){
+				tile.Toggle();
+			}
+
 			CheckWin();
 		}
 		//else maybe make the tile glow or something to indicate clickable
 
 	}
 
-	//if you did this recursively, it would function like a graph.
-	private void ToggleReachable(GridTile clicked){
 
-		Column column = clicked.column;
+	private int ToggleReachable(GridTile from, int numTilesToggled, HashSet<GridTile> visited){
+
+		visited.Add(from);
+
+		Column column = from.column;
 	
 		List<GridTile> columnTiles = column.GetColumnTiles();
-		List<GridTile> rowTiles = Column.GetRow(clicked.y);
+		List<GridTile> rowTiles = Column.GetRow(from.y);
 
 
-		int totalToggled = 0;
-
-		for(int i=0;i<clicked.directions.Length; i++){
-			Direction direction = clicked.directions[i];
+		for(int i=0;i<from.directions.Length; i++){
+			Direction direction = from.directions[i];
 			switch(direction){
 				case Direction.NORTH:
 			    case Direction.SOUTH:
-					totalToggled += ToggleAdjacent(clicked, columnTiles,direction);
+				numTilesToggled += ToggleNext(from, columnTiles,direction, numTilesToggled, visited);
 					break;
 				case Direction.EAST:
 				case Direction.WEST:
-					totalToggled += ToggleAdjacent(clicked, rowTiles,direction);
+				numTilesToggled += ToggleNext(from, rowTiles,direction, numTilesToggled, visited);
 					break;
 			}
 
 		}
 
-		//only toggle the clicked tile if it toggled at least one other tile.
-		if(totalToggled > 0) {
-			clicked.Toggle();
-		}
+		return numTilesToggled;
 
 
 
@@ -71,11 +75,11 @@ public class Game : MonoBehaviour {
 	private Func<int, bool> untilStart = (i) => i > - 1;
 
 	//returns the number of tiles that were toggled.
-	private int ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, Direction direction){
+	private int ToggleNext(GridTile from, List<GridTile> adjacent, Direction direction, int numTilesToggled, HashSet<GridTile> visited){
 		
 		int advancer = direction == Direction.NORTH || direction == Direction.WEST ? -1 : 1;
 
-		int clickedCoordinate = direction == Direction.NORTH || direction == Direction.SOUTH ? clicked.y : clicked.x;
+		int clickedCoordinate = direction == Direction.NORTH || direction == Direction.SOUTH ? from.y : from.x;
 
 
 		Func<int, bool> untilEnd = (i) => i < adjacent.Count;
@@ -85,50 +89,45 @@ public class Game : MonoBehaviour {
 
 		int next = clickedCoordinate + advancer;
 
-		int numToggled = 0;
-
-		while(condition(next)){
-
-			GridTile tile = adjacent[next];
-
-			if(tile.state == TileState.INACTIVE){
-				return numToggled;
-			}
+		if(!condition(next)) return numTilesToggled;
 
 
+		GridTile tile = adjacent[next];
 
-			//depending on current direction, if tile doesn't contain opposite direction, then break
-			//since it doesn't connect
-			switch(direction){
-			   case Direction.EAST:
-				if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return numToggled;
-					break;
-				case Direction.NORTH:
-				if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return numToggled;
-					break;
-				case Direction.WEST:
-				if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return numToggled;
-					break;
-				case Direction.SOUTH:
-				if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return numToggled;
-					break;
-			}
+		if(visited.Contains(tile)) return numTilesToggled;
+
+
+		if(tile.state == TileState.INACTIVE) return numTilesToggled;
 
 
 
-			tile.Toggle();
-			numToggled++;
-
-			//the line cannot continue from this tile.
-			if(!tile.directions.AsEnumerable().Contains(direction)) return numToggled;
-
-
-		
-			next += advancer;
-	
+		//depending on current direction, if tile doesn't contain opposite direction, then break
+		//since it doesn't connect
+		switch(direction){
+		   case Direction.EAST:
+			if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return numTilesToggled;
+				break;
+			case Direction.NORTH:
+			if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return numTilesToggled;
+				break;
+			case Direction.WEST:
+			if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return numTilesToggled;
+				break;
+			case Direction.SOUTH:
+			if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return numTilesToggled;
+				break;
 		}
 
-		return numToggled;
+
+		tile.Toggle();
+
+		numTilesToggled++;
+
+		//the line cannot continue from this tile.
+		//if(!tile.directions.AsEnumerable().Contains(direction)) return tilesToggled;
+
+
+	    return ToggleReachable(tile, numTilesToggled, visited);
 
 
 	}
