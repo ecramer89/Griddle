@@ -61,11 +61,11 @@ public class Game : MonoBehaviour {
 			switch(direction){
 				case Direction.NORTH:
 			    case Direction.SOUTH:
-				numTilesToggled += ToggleNext(clicked, from, columnTiles,direction, numTilesToggled, visited);
+				numTilesToggled += ToggleNext(clicked, from, columnTiles, direction, numTilesToggled, visited);
 					break;
 				case Direction.EAST:
 				case Direction.WEST:
-				numTilesToggled += ToggleNext(clicked, from, rowTiles,direction, numTilesToggled, visited);
+				numTilesToggled += ToggleNext(clicked, from, rowTiles, direction, numTilesToggled, visited);
 					break;
 			}
 

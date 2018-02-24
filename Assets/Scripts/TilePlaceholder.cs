@@ -7,7 +7,7 @@ public class TilePlaceholder : MonoBehaviour {
 
 	public TileState state;
 
-	public void Start(){
+	public void Awake(){
 		//NULL tiles are virtually absent from the game.
 		//just so that in the inspector I can mark a tile as null by disabling its sprite renderer.
 		if(!GetComponent<SpriteRenderer>().enabled){
