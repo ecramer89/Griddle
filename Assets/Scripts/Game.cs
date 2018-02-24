@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 using System;
 using UnityEngine.UI;
-
 public enum MouseButton{
 	LEFT, RIGHT
 }
@@ -14,14 +13,9 @@ public class Game : MonoBehaviour {
 	public static Game instance;
 
 	private bool gameWon = false;
-	private Text text;
 
 	void Awake(){
 		instance = this;
-	}
-
-	void Start(){
-		text = GameObject.Find("Text").GetComponent<Text>();
 	}
 
 	public void HandleMouseOverTile(GridTile tile){
@@ -30,62 +24,58 @@ public class Game : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0)){
 			tile.Rotate();
 		}
-
 		if(Input.GetMouseButtonDown(1)){
-			
-			int totalToggled = ToggleReachable(tile, tile, 0, new HashSet<GridTile>());
-
-			if(totalToggled > 0){
-				tile.Toggle();
-			}
-
+			ToggleReachable(tile);
 			CheckWin();
 		}
 		//else maybe make the tile glow or something to indicate clickable
 
 	}
 
+	//if you did this recursively, it would function like a graph.
+	private void ToggleReachable(GridTile clicked){
 
-	private int ToggleReachable(GridTile clicked, GridTile from, int numTilesToggled, HashSet<GridTile> visited){
+		Column column = clicked.column;
 
-		visited.Add(from);
-
-		Column column = from.column;
-	
 		List<GridTile> columnTiles = column.GetColumnTiles();
-		List<GridTile> rowTiles = Column.GetRow(from.y);
+		List<GridTile> rowTiles = Column.GetRow(clicked.y);
 
 
-		for(int i=0;i<from.directions.Length; i++){
-			Direction direction = from.directions[i];
+		int totalToggled = 0;
+
+		for(int i=0;i<clicked.directions.Length; i++){
+			Direction direction = clicked.directions[i];
 			switch(direction){
-				case Direction.NORTH:
-			    case Direction.SOUTH:
-				numTilesToggled += ToggleNext(clicked, from, columnTiles, direction, numTilesToggled, visited);
-					break;
-				case Direction.EAST:
-				case Direction.WEST:
-				numTilesToggled += ToggleNext(clicked, from, rowTiles, direction, numTilesToggled, visited);
-					break;
+			case Direction.NORTH:
+			case Direction.SOUTH:
+				totalToggled += ToggleAdjacent(clicked, columnTiles,direction);
+				break;
+			case Direction.EAST:
+			case Direction.WEST:
+				totalToggled += ToggleAdjacent(clicked, rowTiles,direction);
+				break;
 			}
 
 		}
 
-		return numTilesToggled;
+		//only toggle the clicked tile if it toggled at least one other tile.
+		if(totalToggled > 0) {
+			clicked.Toggle();
+		}
 
 
 
 	}
-		
+
 
 	private Func<int, bool> untilStart = (i) => i > - 1;
 
 	//returns the number of tiles that were toggled.
-	private int ToggleNext(GridTile clicked, GridTile from, List<GridTile> adjacent, Direction direction, int numTilesToggled, HashSet<GridTile> visited){
-		
+	private int ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, Direction direction){
+
 		int advancer = direction == Direction.NORTH || direction == Direction.WEST ? -1 : 1;
 
-		int clickedCoordinate = direction == Direction.NORTH || direction == Direction.SOUTH ? from.y : from.x;
+		int clickedCoordinate = direction == Direction.NORTH || direction == Direction.SOUTH ? clicked.y : clicked.x;
 
 
 		Func<int, bool> untilEnd = (i) => i < adjacent.Count;
@@ -95,30 +85,50 @@ public class Game : MonoBehaviour {
 
 		int next = clickedCoordinate + advancer;
 
-		if(!condition(next)) return numTilesToggled;
+		int numToggled = 0;
 
+		while(condition(next)){
 
-		GridTile nextTile = adjacent[next];
+			GridTile tile = adjacent[next];
 
-		if(nextTile.state == TileState.NULL) return numTilesToggled;
-
-		if(visited.Contains(nextTile)) return numTilesToggled;
-
-		//depending on current direction, if tile doesn't contain opposite direction, then break
-		//since it doesn't connect
-		if(!nextTile.directions.AsEnumerable().Contains(direction.Opposite())) return numTilesToggled;
-	
-		if(nextTile.state == TileState.INACTIVE) {
-			if(from == clicked){
-				nextTile.SetState(TileState.START);
+			if(tile.state == TileState.INACTIVE){
+				return numToggled;
 			}
-			else return numTilesToggled;
+
+
+
+			//depending on current direction, if tile doesn't contain opposite direction, then break
+			//since it doesn't connect
+			switch(direction){
+			case Direction.EAST:
+				if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return numToggled;
+				break;
+			case Direction.NORTH:
+				if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return numToggled;
+				break;
+			case Direction.WEST:
+				if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return numToggled;
+				break;
+			case Direction.SOUTH:
+				if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return numToggled;
+				break;
+			}
+
+
+
+			tile.Toggle();
+			numToggled++;
+
+			//the line cannot continue from this tile.
+			if(!tile.directions.AsEnumerable().Contains(direction)) return numToggled;
+
+
+
+			next += advancer;
+
 		}
 
-		nextTile.Toggle();
-
-	
-	    return ToggleReachable(clicked, nextTile, ++numTilesToggled, visited);
+		return numToggled;
 
 
 	}
@@ -134,8 +144,7 @@ public class Game : MonoBehaviour {
 		}
 
 		if(gameWon){
-			text.text = Settings.global.winText;
-			text.enabled=true; 
+			GameObject.Find("Text").GetComponent<Text>().enabled=true; 
 		}
 
 
