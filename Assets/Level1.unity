@@ -455,7 +455,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114912950648552062, guid: e60220ae4e4c44f8e9de257a94bea56f, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e60220ae4e4c44f8e9de257a94bea56f, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &705157223
@@ -500,7 +501,7 @@ Prefab:
     - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
       propertyPath: state
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 212780712126126158, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
@@ -563,7 +564,7 @@ Prefab:
     - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
       propertyPath: state
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 212780712126126158, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
@@ -891,7 +892,7 @@ Prefab:
     - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
       propertyPath: state
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}
@@ -1047,13 +1048,13 @@ Prefab:
     - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
       propertyPath: state
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 212780712126126158, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0e23e0ee6a45540beb35f01482941ab7,
+      objectReference: {fileID: 21300000, guid: f3b8d44a1db4942b89658d836591b70e,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}

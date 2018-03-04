@@ -277,14 +277,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4719928295626598, guid: e60220ae4e4c44f8e9de257a94bea56f, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4719928295626598, guid: e60220ae4e4c44f8e9de257a94bea56f, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e60220ae4e4c44f8e9de257a94bea56f, type: 2}
   m_IsPrefabParent: 0
@@ -384,6 +376,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 5e8a8fe33bc25427e8e8f7cb32b362df,
         type: 3}
+    - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
+        type: 2}
+      propertyPath: state
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}
   m_IsPrefabParent: 0
@@ -584,6 +581,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 79bc0a14f14b94ffbabaf3e2565323de,
         type: 3}
+    - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
+        type: 2}
+      propertyPath: state
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}
   m_IsPrefabParent: 0
@@ -686,6 +688,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4261954486678650, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
+        type: 2}
+      propertyPath: state
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -985,6 +992,11 @@ Prefab:
     - target: {fileID: 1037671068859566, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}
       propertyPath: m_Name
       value: Tileplaceholder (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
+        type: 2}
+      propertyPath: state
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}

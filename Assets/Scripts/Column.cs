@@ -49,6 +49,10 @@ public class Column : MonoBehaviour {
 			tile.gameObject.transform.position = placeholder.gameObject.transform.position;
 			tile.y = i;
 			tile.x = this.x;
+			GameObject glow = (Instantiate(Resources.Load("Prefabs/Glow", typeof(GameObject))) 
+				as GameObject);
+			glow.transform.position=tile.transform.position;
+			tile.glow = glow;
 			tile.directions = placeholder.GetDirections();
 			tile.column = this;
 			SpriteRenderer sr = placeholder.GetComponent<SpriteRenderer>();

@@ -60,7 +60,7 @@ public class GridTile : MonoBehaviour {
 	[HideInInspector]
 	public Column column;
 
-
+	public GameObject glow;
 
 
 	void Awake(){
@@ -68,8 +68,6 @@ public class GridTile : MonoBehaviour {
 		TILES_LIST.Add(this);
 	
 		sprite = GetComponent<SpriteRenderer>();
-
-	
 
 	
 	}
@@ -124,12 +122,15 @@ public class GridTile : MonoBehaviour {
 		switch(this.state){
 			case TileState.NULL:
 				sprite.enabled = false;
+				glow.SetActive(false);
 			break;
 			case TileState.ON:
 				sprite.color =  Settings.global.tileEndColor;
+				glow.SetActive(true);
 			break;
 			case TileState.OFF:
 				sprite.color =  Settings.global.tileStartColor;
+				glow.SetActive(false);
 			break;
 	
 	

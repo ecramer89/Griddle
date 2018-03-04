@@ -25,11 +25,8 @@ public class Game : MonoBehaviour {
 			tile.Rotate();
 		}
 		if(Input.GetMouseButtonDown(1)){
-
-			//if(tile.state == TileState.OFF) return;
-
 			ToggleReachable(tile);
-			CheckWin();
+			//CheckWin();
 		}
 		//else maybe make the tile glow or something to indicate clickable
 
@@ -44,8 +41,6 @@ public class Game : MonoBehaviour {
 		List<GridTile> rowTiles = Column.GetRow(clicked.y);
 
 
-
-
 		int totalToggled = 0;
 
 		for(int i=0;i<clicked.directions.Length; i++){
@@ -53,11 +48,11 @@ public class Game : MonoBehaviour {
 			switch(direction){
 			case Direction.NORTH:
 			case Direction.SOUTH:
-				totalToggled += ToggleAdjacent(clicked, columnTiles,direction);
+				totalToggled += ToggleAdjacent(clicked, columnTiles,direction) ? 1 : 0;
 				break;
 			case Direction.EAST:
 			case Direction.WEST:
-				totalToggled += ToggleAdjacent(clicked, rowTiles,direction);
+				totalToggled += ToggleAdjacent(clicked, rowTiles,direction) ? 1 : 0;
 				break;
 			}
 
@@ -77,7 +72,7 @@ public class Game : MonoBehaviour {
 	private Func<int, bool> untilStart = (i) => i > - 1;
 
 	//returns the number of tiles that were toggled.
-	private int ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, Direction direction){
+	private bool ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, Direction direction){
 
 		int advancer = direction == Direction.NORTH || direction == Direction.WEST ? -1 : 1;
 
@@ -89,72 +84,51 @@ public class Game : MonoBehaviour {
 
 		Func<int, bool> condition = advancer < 0 ? untilStart : untilEnd;
 
-		int next = clickedCoordinate + advancer;
+		int adjacentIndex = clickedCoordinate + advancer;
 
-		int numToggled = 0;
+		if(!condition(adjacentIndex)) return false;
 
-		while(condition(next)){
+	
+		GridTile tile = adjacent[adjacentIndex];
 
-			GridTile tile = adjacent[next];
-
-			if(tile.state == TileState.NULL){
-				return numToggled;
-			}
-
-
-			//if(tile.state == clicked.state) return numToggled;
+		if(tile.state == TileState.NULL) return false;
 
 
 
-			//depending on current direction, if tile doesn't contain opposite direction, then break
-			//since it doesn't connect
-			switch(direction){
-			case Direction.EAST:
-				if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return numToggled;
-				break;
-			case Direction.NORTH:
-				if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return numToggled;
-				break;
-			case Direction.WEST:
-				if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return numToggled;
-				break;
-			case Direction.SOUTH:
-				if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return numToggled;
-				break;
-			}
-
-
-
-			//shoot a bullet at tile from clicked
-			Bullet bullet = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) as GameObject).GetComponent<Bullet>();
-
-			//shoot light from clicked to adjacent tile if toggling adjacent tile on
-			if(tile.state == TileState.OFF){
-				bullet.transform.position = clicked.transform.position;
-				bullet.SetTarget(tile.gameObject);
-			} else {
-			//absorb light from target back into clicked if toggling adjacent off
-				bullet.transform.position = tile.gameObject.transform.position;//clicked.transform.position;
-				bullet.SetTarget(clicked.gameObject);
-
-			}
-
-			tile.Toggle();
-			//clicked.Affect(tile);
-
-			numToggled++;
-
-			//the line cannot continue from this tile.
-			if(!tile.directions.AsEnumerable().Contains(direction)) return numToggled;
-
-
-
-			next += advancer;
-
+		//depending on current direction, if tile doesn't contain opposite direction, then break
+		//since it doesn't connect
+		switch(direction){
+		case Direction.EAST:
+		if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return false;
+			break;
+		case Direction.NORTH:
+		if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return false;
+			break;
+		case Direction.WEST:
+		if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return false;
+			break;
+		case Direction.SOUTH:
+		if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return false;
+			break;
 		}
 
-		return numToggled;
 
+		//shoot a bullet at tile from clicked
+		Bullet bullet = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) 
+			as GameObject).GetComponent<Bullet>();
+
+		//shoot light from clicked to adjacent tile if toggling adjacent tile on
+		if(tile.state == TileState.OFF){
+			bullet.transform.position = clicked.transform.position;
+			bullet.SetTarget(tile.gameObject);
+		} else {
+		//absorb light from target back into clicked if toggling adjacent off
+			bullet.transform.position = tile.gameObject.transform.position;
+			bullet.SetTarget(clicked.gameObject);
+		}
+
+		tile.Toggle();
+		return true;
 
 	}
 
