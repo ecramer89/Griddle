@@ -35,13 +35,18 @@ static class DirectionMethods{
 public enum TileState{
 	START,
 	END,
-	INACTIVE,
+	INACTIVE, //maybe rename because this seems to imply the 'off' state but it's actually 'start' state.
 	NULL
 }
 
 public class GridTile : MonoBehaviour {
 	
 	public static List<GridTile> TILES_LIST = new List<GridTile>();
+
+	public float rotationDurationSeconds = 1;
+	private float degPerSec;
+
+	private float rotateCounter;
 
 	[HideInInspector]
 	public Direction[] directions;
@@ -57,6 +62,8 @@ public class GridTile : MonoBehaviour {
 	public Column column;
 
 
+
+
 	void Awake(){
 		
 		TILES_LIST.Add(this);
@@ -64,22 +71,47 @@ public class GridTile : MonoBehaviour {
 		sprite = GetComponent<SpriteRenderer>();
 
 	
+
+	
 	}
 
 	//use on mouse over instead of onMouseDown since former only invoked if user presses left mouse button
 	public void OnMouseOver(){
+
+		if(rotateCounter > 0) return; //don't allow other effects if we are rotating.
 		
 		if(state == TileState.NULL) return;
 		if(state == TileState.INACTIVE) return;
+	
 
 		Game.instance.HandleMouseOverTile(this);
 	
 	}
 
+	public void Update(){
+		//rotate 90 degrees over course of a second;
+		//since variable frames elapse per second
+		//multiply delta time/seconds by amount of frames elapsed
+		//track the total degrees we've rotated so we know when to stop.
+		float rotateDegreesThisFrame = 90 * Time.deltaTime;
+
+		if(rotateCounter > 0){
+			rotateCounter -= rotateDegreesThisFrame;
+			transform.Rotate(Vector3.forward * -rotateDegreesThisFrame);
+		}
+
+
+
+
+	}
+
 
 	public void Rotate(){
-		
-		transform.Rotate(Vector3.forward * -90);
+
+
+	
+		rotateCounter = 90f;
+
 
 		for(int i=0;i<directions.Length;i++){
 			directions[i]= (Direction)(((int)(directions[i]) + 1) % Enum.GetValues(typeof(Direction)).Length);

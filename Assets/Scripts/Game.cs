@@ -32,7 +32,7 @@ public class Game : MonoBehaviour {
 
 	}
 
-	//if you did this recursively, it would function like a graph.
+
 	private void ToggleReachable(GridTile clicked){
 
 		Column column = clicked.column;
@@ -91,6 +91,10 @@ public class Game : MonoBehaviour {
 
 			GridTile tile = adjacent[next];
 
+			if(tile.state == TileState.NULL){
+				return numToggled;
+			}
+
 			if(tile.state == TileState.INACTIVE){
 				return numToggled;
 			}
@@ -116,7 +120,14 @@ public class Game : MonoBehaviour {
 
 
 
+			//shoot a bullet at tile from clicked
+			Bullet bullet = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) as GameObject).GetComponent<Bullet>();
+			bullet.transform.position = clicked.transform.position;
+			bullet.SetTarget(tile.gameObject);
+		
+
 			tile.Toggle();
+			Debug.Log(tile.gameObject.name+" "+tile.state);
 			numToggled++;
 
 			//the line cannot continue from this tile.

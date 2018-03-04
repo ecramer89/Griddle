@@ -45,6 +45,7 @@ public class Column : MonoBehaviour {
 		for(int i=0;i<gridspaces.Length;i++){
 			TilePlaceholder placeholder = gridspaces[i];
 			GridTile tile = (Instantiate(Resources.Load("Prefabs/Tile", typeof(GameObject))) as GameObject).GetComponent<GridTile>();
+			tile.gameObject.name=x+""+i;
 			tile.gameObject.transform.position = placeholder.gameObject.transform.position;
 			tile.y = i;
 			tile.x = this.x;
