@@ -33,9 +33,8 @@ static class DirectionMethods{
 }
 
 public enum TileState{
-	START,
-	END,
-	INACTIVE, //maybe rename because this seems to imply the 'off' state but it's actually 'start' state.
+	OFF,
+	ON,
 	NULL
 }
 
@@ -81,7 +80,7 @@ public class GridTile : MonoBehaviour {
 		if(rotateCounter > 0) return; //don't allow other effects if we are rotating.
 		
 		if(state == TileState.NULL) return;
-		if(state == TileState.INACTIVE) return;
+	
 	
 
 		Game.instance.HandleMouseOverTile(this);
@@ -93,6 +92,7 @@ public class GridTile : MonoBehaviour {
 		//since variable frames elapse per second
 		//multiply delta time/seconds by amount of frames elapsed
 		//track the total degrees we've rotated so we know when to stop.
+
 		float rotateDegreesThisFrame = 90 * Time.deltaTime;
 
 		if(rotateCounter > 0){
@@ -125,15 +125,14 @@ public class GridTile : MonoBehaviour {
 			case TileState.NULL:
 				sprite.enabled = false;
 			break;
-			case TileState.END:
+			case TileState.ON:
 				sprite.color =  Settings.global.tileEndColor;
 			break;
-			case TileState.START:
+			case TileState.OFF:
 				sprite.color =  Settings.global.tileStartColor;
 			break;
-			case TileState.INACTIVE:
-				sprite.color =  Settings.global.tileInactiveColor;
-			break;
+	
+	
 		}
 
 	}
@@ -144,15 +143,21 @@ public class GridTile : MonoBehaviour {
 
 		switch(state){
 			case TileState.NULL:
-			case TileState.INACTIVE:
 				return;
-			case TileState.START:
-				SetState(TileState.END);
+			case TileState.OFF:
+				SetState(TileState.ON);
 			break;
-			case TileState.END:
-				SetState(TileState.START);
+			case TileState.ON:
+				SetState(TileState.OFF);
 			break;
 		}
+	}
+
+
+	public void Affect(GridTile other){
+		
+		other.SetState(this.state);
+	
 	}
 
 

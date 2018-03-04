@@ -25,6 +25,9 @@ public class Game : MonoBehaviour {
 			tile.Rotate();
 		}
 		if(Input.GetMouseButtonDown(1)){
+
+			//if(tile.state == TileState.OFF) return;
+
 			ToggleReachable(tile);
 			CheckWin();
 		}
@@ -39,6 +42,8 @@ public class Game : MonoBehaviour {
 
 		List<GridTile> columnTiles = column.GetColumnTiles();
 		List<GridTile> rowTiles = Column.GetRow(clicked.y);
+
+
 
 
 		int totalToggled = 0;
@@ -59,6 +64,7 @@ public class Game : MonoBehaviour {
 		}
 
 		//only toggle the clicked tile if it toggled at least one other tile.
+		//experimenting with removing this
 		if(totalToggled > 0) {
 			clicked.Toggle();
 		}
@@ -95,9 +101,8 @@ public class Game : MonoBehaviour {
 				return numToggled;
 			}
 
-			if(tile.state == TileState.INACTIVE){
-				return numToggled;
-			}
+
+			//if(tile.state == clicked.state) return numToggled;
 
 
 
@@ -122,12 +127,21 @@ public class Game : MonoBehaviour {
 
 			//shoot a bullet at tile from clicked
 			Bullet bullet = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) as GameObject).GetComponent<Bullet>();
-			bullet.transform.position = clicked.transform.position;
-			bullet.SetTarget(tile.gameObject);
-		
+
+			//shoot light from clicked to adjacent tile if toggling adjacent tile on
+			if(tile.state == TileState.OFF){
+				bullet.transform.position = clicked.transform.position;
+				bullet.SetTarget(tile.gameObject);
+			} else {
+			//absorb light from target back into clicked if toggling adjacent off
+				bullet.transform.position = tile.gameObject.transform.position;//clicked.transform.position;
+				bullet.SetTarget(clicked.gameObject);
+
+			}
 
 			tile.Toggle();
-			Debug.Log(tile.gameObject.name+" "+tile.state);
+			//clicked.Affect(tile);
+
 			numToggled++;
 
 			//the line cannot continue from this tile.
@@ -148,7 +162,7 @@ public class Game : MonoBehaviour {
 	private void CheckWin(){
 		gameWon = true;
 		foreach(GridTile tile in GridTile.All()){
-			if(tile.state == TileState.START){
+			if(tile.state == TileState.OFF){
 				gameWon = false;
 				break;
 			}

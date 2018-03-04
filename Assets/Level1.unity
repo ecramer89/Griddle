@@ -891,7 +891,7 @@ Prefab:
     - target: {fileID: 114318989020925250, guid: 17c9b2354cd9840ba86c6851ee3115f7,
         type: 2}
       propertyPath: state
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}
@@ -1049,6 +1049,12 @@ Prefab:
       propertyPath: state
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212780712126126158, guid: 17c9b2354cd9840ba86c6851ee3115f7,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0e23e0ee6a45540beb35f01482941ab7,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17c9b2354cd9840ba86c6851ee3115f7, type: 2}
   m_IsPrefabParent: 0
