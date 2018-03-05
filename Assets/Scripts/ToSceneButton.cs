@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class ToMenuButton : MonoBehaviour {
+public class ToSceneButton : MonoBehaviour {
+
+	public string sceneName;
 
 	void OnMouseDown(){
-		SceneManager.LoadScene("LevelSelect");
+		SceneManager.LoadScene(sceneName);
 	}
 }

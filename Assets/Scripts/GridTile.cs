@@ -62,6 +62,10 @@ public class GridTile : MonoBehaviour {
 
 	public GameObject glow;
 
+	private bool rotatingOut = false;
+
+
+
 
 	void Awake(){
 		
@@ -70,6 +74,22 @@ public class GridTile : MonoBehaviour {
 		sprite = GetComponent<SpriteRenderer>();
 
 	
+	}
+
+
+	public void RotateDown(){
+		rotatingOut = true;
+
+	}
+
+
+	public void BeginEndGameAnimation(){
+		if(state == TileState.NULL) {
+			GameObject.Destroy(glow);
+			GameObject.Destroy(gameObject);
+		}
+		glow.GetComponent<Glow>().FadeOut(RotateDown);
+
 	}
 
 	//use on mouse over instead of onMouseDown since former only invoked if user presses left mouse button
@@ -86,16 +106,33 @@ public class GridTile : MonoBehaviour {
 	}
 
 	public void Update(){
+
+
+		if(rotatingOut){
+			transform.Rotate(Vector3.forward * Time.deltaTime * 1.5f);
+			transform.localScale = transform.localScale * .99f;
+			Debug.Log(transform.localScale.magnitude);
+			if(transform.localScale.magnitude < .1){
+				Debug.Log("dead");
+				rotatingOut = false;
+				GameObject.Destroy(gameObject);
+				Game.instance.TileGameOverAnimationDone();
+			
+			}
+
+		} else {
 		//rotate 90 degrees over course of a second;
 		//since variable frames elapse per second
 		//multiply delta time/seconds by amount of frames elapsed
 		//track the total degrees we've rotated so we know when to stop.
 
-		float rotateDegreesThisFrame = 90 * Time.deltaTime;
+			float rotateDegreesThisFrame = 90 * Time.deltaTime;
 
-		if(rotateCounter > 0){
-			rotateCounter -= rotateDegreesThisFrame;
-			transform.Rotate(Vector3.forward * -rotateDegreesThisFrame);
+			if(rotateCounter > 0){
+				rotateCounter -= rotateDegreesThisFrame;
+				transform.Rotate(Vector3.forward * -rotateDegreesThisFrame);
+			}
+
 		}
 
 
@@ -127,6 +164,7 @@ public class GridTile : MonoBehaviour {
 			case TileState.ON:
 				sprite.color =  Settings.global.tileEndColor;
 				glow.SetActive(true);
+				Glow.Synchronize();
 			break;
 			case TileState.OFF:
 				sprite.color =  Settings.global.tileStartColor;
@@ -168,5 +206,9 @@ public class GridTile : MonoBehaviour {
 
 	}
 		
+
+	public void OnDestroy(){
+		TILES_LIST.Remove(this);
+	}
 
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class Glow : MonoBehaviour {
 
@@ -8,19 +10,66 @@ public class Glow : MonoBehaviour {
 	private Vector3 startingScale;
 	private Vector3 normed;
 
+	private bool fading = false;
+	private Action onFaded;
+
+
+	private static List<Glow> allGlows = new List<Glow>();
+
+
 	// Use this for initialization
 	void Start () {
 		startingScale = transform.localScale;
 		normed = startingScale.normalized;
+		allGlows.Add(this);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		pulseTimer += Time.deltaTime;
+		if(fading){
+			SpriteRenderer sr = GetComponent<SpriteRenderer>();
+			float alpha = sr.color.a;
+			alpha -= Time.deltaTime;
+			sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
 
-		transform.localScale = startingScale + (normed * Mathf.Sin(pulseTimer));
+			if(alpha <= 0){
+				onFaded();
+				GameObject.Destroy(gameObject);
+			}
+
+
+
+		} else {
+
+			pulseTimer += Time.deltaTime;
+
+			transform.localScale = startingScale + (normed * Mathf.Sin(pulseTimer * .5f));
+
+		}
 
 		
 	}
+
+	public void OnDestory(){
+		allGlows.Remove(this);
+	}
+
+
+	public static void Synchronize(){
+		foreach(Glow glow in allGlows){
+			glow.pulseTimer = 0;
+		}
+
+	}
+
+
+	public void FadeOut(Action onFaded){
+		fading = true;
+		this.onFaded = onFaded;
+
+	}
+
+
+
 }

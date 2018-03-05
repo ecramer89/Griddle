@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public enum MouseButton{
 	LEFT, RIGHT
 }
@@ -12,10 +13,17 @@ public class Game : MonoBehaviour {
 
 	public static Game instance;
 
+	private GameObject toNextLevelButton;
+
 	private bool gameWon = false;
 
 	void Awake(){
 		instance = this;
+	}
+
+	void Start(){
+		toNextLevelButton = GameObject.Find("ToNextLevelButton");
+		toNextLevelButton.SetActive(false);
 	}
 
 	public void HandleMouseOverTile(GridTile tile){
@@ -26,9 +34,9 @@ public class Game : MonoBehaviour {
 		}
 		if(Input.GetMouseButtonDown(1)){
 			ToggleReachable(tile);
-			//CheckWin();
+			CheckWin();
 		}
-		//else maybe make the tile glow or something to indicate clickable
+
 
 	}
 
@@ -67,6 +75,11 @@ public class Game : MonoBehaviour {
 
 
 	}
+
+	public void TileGameOverAnimationDone(){
+		toNextLevelButton.SetActive(true);
+	}
+
 
 
 	private Func<int, bool> untilStart = (i) => i > - 1;
@@ -122,7 +135,7 @@ public class Game : MonoBehaviour {
 			bullet.transform.position = clicked.transform.position;
 			bullet.SetTarget(tile.gameObject);
 		} else {
-		//absorb light from target back into clicked if toggling adjacent off
+		//absorb light from target back into clicked ifelButton toggling adjacent off
 			bullet.transform.position = tile.gameObject.transform.position;
 			bullet.SetTarget(clicked.gameObject);
 		}
@@ -143,7 +156,12 @@ public class Game : MonoBehaviour {
 		}
 
 		if(gameWon){
-			GameObject.Find("Text").GetComponent<Text>().enabled=true; 
+			//start each tile's die animation.
+			foreach(GridTile tile in GridTile.All()){
+				tile.BeginEndGameAnimation();
+			}
+
+
 		}
 
 
