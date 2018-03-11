@@ -23,6 +23,7 @@ public class TilePlaceholder : MonoBehaviour {
 		Direction[] directions = new Direction[directionsString.Length];
 		for(int i=0;i<directionsString.Length;i++){
 			directions[i] = (Direction)Enum.Parse(typeof(Direction), directionsString[i].ToUpper());
+		
 		}
 		return directions;
 

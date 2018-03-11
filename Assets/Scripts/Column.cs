@@ -54,6 +54,7 @@ public class Column : MonoBehaviour {
 			glow.transform.position=tile.transform.position;
 			tile.glow = glow;
 			tile.directions = placeholder.GetDirections();
+		
 			tile.column = this;
 			SpriteRenderer sr = placeholder.GetComponent<SpriteRenderer>();
 			tile.GetComponent<SpriteRenderer>().sprite = sr.sprite;

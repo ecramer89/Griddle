@@ -37,7 +37,7 @@ public class Board : MonoBehaviour {
 				GridTile tile = tilesInColumn[y];
 
 
-				Connection northConnection = y > 0 ? tilesInColumn[y-1].GetConnection(Direction.SOUTH) : null;
+				Connection northConnection = y > 0 ? tilesInColumn[y-1].GetConnection(Direction.NORTH.Opposite()) : null;
 
 
 				Connection southConnection = y < tilesInColumn.Count - 1  ? 
@@ -54,17 +54,19 @@ public class Board : MonoBehaviour {
 				}
 
 
-				Connection eastConnection = x > 0 ? columns[x-1].GetColumnTiles()[y].GetConnection(Direction.WEST) : null;
-				Connection westConnection = x < columns.Count - 1 ? 
+				Connection westConnection = x > 0 ? columns[x-1].GetColumnTiles()[y].GetConnection(Direction.WEST.Opposite()) : null;
+
+
+				Connection eastConnection = x < columns.Count - 1 ? 
 					(Instantiate(Resources.Load("Prefabs/Connection", typeof(GameObject))) 
 					as GameObject).GetComponent<Connection>() : null;
 
 
-				if(westConnection != null){
-					westConnection.SetGridTile(tile);
+				if(eastConnection != null){
+					eastConnection.SetGridTile(tile);
 					GridTile other = columns[x+1].GetColumnTiles()[y];
-					westConnection.SetGridTile(other);
-					westConnection.transform.position = (tile.transform.position + other.transform.position) * .5f;
+					eastConnection.SetGridTile(other);
+					eastConnection.transform.position = (tile.transform.position + other.transform.position) * .5f;
 
 				}
 

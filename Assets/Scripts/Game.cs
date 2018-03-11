@@ -42,13 +42,7 @@ public class Game : MonoBehaviour {
 
 
 	private void ToggleReachable(GridTile clicked){
-
-		Column column = clicked.column;
-
-		List<GridTile> columnTiles = column.GetColumnTiles();
-		List<GridTile> rowTiles = Column.GetRow(clicked.y);
-
-
+		
 		int totalToggled = 0;
 
 		for(int i=0;i<clicked.directions.Length; i++){
@@ -56,11 +50,11 @@ public class Game : MonoBehaviour {
 			switch(direction){
 			case Direction.NORTH:
 			case Direction.SOUTH:
-				totalToggled += ToggleAdjacent(clicked, columnTiles,direction) ? 1 : 0;
+				totalToggled += ToggleAdjacent(clicked,direction) ? 1 : 0;
 				break;
 			case Direction.EAST:
 			case Direction.WEST:
-				totalToggled += ToggleAdjacent(clicked, rowTiles,direction) ? 1 : 0;
+				totalToggled += ToggleAdjacent(clicked,direction) ? 1 : 0;
 				break;
 			}
 
@@ -81,30 +75,18 @@ public class Game : MonoBehaviour {
 	}
 
 
-
-	private Func<int, bool> untilStart = (i) => i > - 1;
-
 	//returns the number of tiles that were toggled.
-	private bool ToggleAdjacent(GridTile clicked, List<GridTile> adjacentTiles, Direction direction){
+	private bool ToggleAdjacent(GridTile clicked, Direction direction){
 
-		int advancer = direction == Direction.NORTH || direction == Direction.WEST ? -1 : 1;
+		Debug.Log(clicked.name+" "+direction);
 
-		int clickedCoordinate = direction == Direction.NORTH || direction == Direction.SOUTH ? clicked.y : clicked.x;
+		GridTile adjacent = clicked.GetAdjacentTile(direction);
 
+		if(adjacent == null) {
 
-		Func<int, bool> untilEnd = (i) => i < adjacentTiles.Count;
+			return false; 
 
-
-		Func<int, bool> condition = advancer < 0 ? untilStart : untilEnd;
-
-		int adjacentIndex = clickedCoordinate + advancer;
-
-		if(!condition(adjacentIndex)) return false;
-
-	
-		GridTile adjacent = clicked.GetAdjacentTile(direction);//adjacentTiles[adjacentIndex];
-
-		if(adjacent == null) return false; 
+		}
 
 		if(adjacent.state == TileState.NULL) return false;
 
@@ -112,15 +94,19 @@ public class Game : MonoBehaviour {
 
 		//depending on current direction, if tile doesn't contain opposite direction, then break
 		//since it doesn't connect
+
+
+
+
 		switch(direction){
 		case Direction.EAST:
-		if(!adjacent.directions.AsEnumerable().Contains(Direction.WEST)) return false;
+			if(!adjacent.directions.AsEnumerable().Contains(Direction.WEST)) return false;
 			break;
 		case Direction.NORTH:
 		if(!adjacent.directions.AsEnumerable().Contains(Direction.SOUTH)) return false;
 			break;
 		case Direction.WEST:
-		if(!adjacent.directions.AsEnumerable().Contains(Direction.EAST)) return false;
+			if(!adjacent.directions.AsEnumerable().Contains(Direction.EAST)) return false;
 			break;
 		case Direction.SOUTH:
 		if(!adjacent.directions.AsEnumerable().Contains(Direction.NORTH)) return false;
@@ -141,6 +127,9 @@ public class Game : MonoBehaviour {
 			bullet.transform.position = adjacent.gameObject.transform.position;
 			bullet.SetTarget(clicked.gameObject);
 		}
+
+
+
 
 		adjacent.Toggle();
 		return true;
