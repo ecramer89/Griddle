@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Bullet : MonoBehaviour {
 
@@ -10,6 +11,9 @@ public class Bullet : MonoBehaviour {
 
 	private GameObject target;
 	private Vector3 trajectory = Vector3.zero;
+
+
+	public event Action<Point> Move = (Point p) => {};
 
 
 	// Use this for initialization
@@ -30,6 +34,13 @@ public class Bullet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		this.transform.position = this.transform.position + (Time.deltaTime * unitsPerSecond * trajectory);
+
+		Point nxt = (Instantiate(Resources.Load("Prefabs/Point", typeof(GameObject))) 
+			as GameObject).GetComponent<Point>();
+
+		nxt.transform.position = this.transform.position;
+
+		Move(nxt);
 
 	}
 

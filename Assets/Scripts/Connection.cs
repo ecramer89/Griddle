@@ -18,6 +18,8 @@ public class Connection : MonoBehaviour {
 		get { return b; }
 	}
 
+
+	private List<Point> points = new List<Point>();
 	private List<Point> pointsToA = new List<Point>();
 	private List<Point> pointsToB  = new List<Point>();
 	private Vector3 toA;
@@ -26,6 +28,10 @@ public class Connection : MonoBehaviour {
 	private float numPointsB;
 	private Vector3 nxtPositionA;
 	private Vector3 nxtPositionB;
+
+
+	private bool collapsing;
+
 
 
 
@@ -50,11 +56,39 @@ public class Connection : MonoBehaviour {
 	}
 
 
-	public void InitiateBuildRoutine(){
+	public void Update(){
+
+		if(collapsing && points.Count > 0){
+			Point point = points[0];
+			points.RemoveAt(0);
+			Destroy(point.gameObject);
+
+			if(points.Count == 0) {
+				collapsing = false;
+
+			}
+		}
+
+	}
+
+
+	public void InitiateBuildRoutine(GridTile from){
+		if(points.Count > 0) return; //already built or building connection
 		if(a == null || b == null) return;
+		if(a != from && b != from) return;
+
+		Bullet bullet = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) 
+			as GameObject).GetComponent<Bullet>();
+
+		GridTile target = a == from ? b: a;
+
+		bullet.transform.position = from.transform.position;
+		bullet.SetTarget(target.gameObject);
+		bullet.Move += HoldTrail;
+
 
 	
-		if(pointsToA.Count > 0|| pointsToB.Count > 0) return;
+		/*if(pointsToA.Count > 0|| pointsToB.Count > 0) return;
 
 		Point initialPoint  = (Instantiate(Resources.Load("Prefabs/Point", typeof(GameObject)))
 			as GameObject).GetComponent<Point>();
@@ -81,13 +115,20 @@ public class Connection : MonoBehaviour {
 
 		pointsToA.Add(initialPoint);
 
-		StartCoroutine(Build());
+		StartCoroutine(Build());*/
 	
 
 	}
 
 
-	private IEnumerator Build(){
+	private void HoldTrail(Point point){
+
+		points.Add(point);
+
+	}
+
+
+	/*private IEnumerator Build(){
 		while(pointsToA.Count + pointsToB.Count < numPointsA + numPointsB ){
 
 			if(pointsToA.Count < numPointsA){
@@ -113,15 +154,19 @@ public class Connection : MonoBehaviour {
 			yield return new WaitForSeconds(changePerSecond);
 		}
 
-	}
+	}*/
 
 
 	public void InitiateDissolveRoutine(){
-		StartCoroutine(Dissolve());
+
+		if(!collapsing) {
+			collapsing = true;
+		}
+		//StartCoroutine(Dissolve());
 
 	}
 
-
+	/*
 	public IEnumerator Dissolve(){
 		while(pointsToA.Count + pointsToB.Count > 0 ){
 
@@ -146,7 +191,7 @@ public class Connection : MonoBehaviour {
 
 
 
-	}
+	}*/
 
 
 	public GridTile GetOther(GridTile first){

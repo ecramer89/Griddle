@@ -120,14 +120,14 @@ public class Game : MonoBehaviour {
 
 		//shoot light from clicked to adjacent tile if toggling adjacent tile on
 		if(adjacent.state == TileState.OFF){
-			clicked.GetConnection(direction).InitiateBuildRoutine();
-			/*bullet.transform.position = clicked.transform.position;
-			bullet.SetTarget(adjacent.gameObject);*/
+			clicked.GetConnection(direction).InitiateBuildRoutine(clicked);
+			//bullet.transform.position = clicked.transform.position;
+			//bullet.SetTarget(adjacent.gameObject);
 		} else {
 			clicked.GetConnection(direction).InitiateDissolveRoutine();
 		//absorb light from target back into clicked ifelButton toggling adjacent off
-			/*bullet.transform.position = adjacent.gameObject.transform.position;
-			bullet.SetTarget(clicked.gameObject);*/
+			//bullet.transform.position = adjacent.gameObject.transform.position;
+			//bullet.SetTarget(clicked.gameObject);
 		}
 
 
