@@ -85,14 +85,14 @@ public class Game : MonoBehaviour {
 	private Func<int, bool> untilStart = (i) => i > - 1;
 
 	//returns the number of tiles that were toggled.
-	private bool ToggleAdjacent(GridTile clicked, List<GridTile> adjacent, Direction direction){
+	private bool ToggleAdjacent(GridTile clicked, List<GridTile> adjacentTiles, Direction direction){
 
 		int advancer = direction == Direction.NORTH || direction == Direction.WEST ? -1 : 1;
 
 		int clickedCoordinate = direction == Direction.NORTH || direction == Direction.SOUTH ? clicked.y : clicked.x;
 
 
-		Func<int, bool> untilEnd = (i) => i < adjacent.Count;
+		Func<int, bool> untilEnd = (i) => i < adjacentTiles.Count;
 
 
 		Func<int, bool> condition = advancer < 0 ? untilStart : untilEnd;
@@ -102,9 +102,11 @@ public class Game : MonoBehaviour {
 		if(!condition(adjacentIndex)) return false;
 
 	
-		GridTile tile = adjacent[adjacentIndex];
+		GridTile adjacent = clicked.GetAdjacentTile(direction);//adjacentTiles[adjacentIndex];
 
-		if(tile.state == TileState.NULL) return false;
+		if(adjacent == null) return false; 
+
+		if(adjacent.state == TileState.NULL) return false;
 
 
 
@@ -112,16 +114,16 @@ public class Game : MonoBehaviour {
 		//since it doesn't connect
 		switch(direction){
 		case Direction.EAST:
-		if(!tile.directions.AsEnumerable().Contains(Direction.WEST)) return false;
+		if(!adjacent.directions.AsEnumerable().Contains(Direction.WEST)) return false;
 			break;
 		case Direction.NORTH:
-		if(!tile.directions.AsEnumerable().Contains(Direction.SOUTH)) return false;
+		if(!adjacent.directions.AsEnumerable().Contains(Direction.SOUTH)) return false;
 			break;
 		case Direction.WEST:
-		if(!tile.directions.AsEnumerable().Contains(Direction.EAST)) return false;
+		if(!adjacent.directions.AsEnumerable().Contains(Direction.EAST)) return false;
 			break;
 		case Direction.SOUTH:
-		if(!tile.directions.AsEnumerable().Contains(Direction.NORTH)) return false;
+		if(!adjacent.directions.AsEnumerable().Contains(Direction.NORTH)) return false;
 			break;
 		}
 
@@ -131,16 +133,16 @@ public class Game : MonoBehaviour {
 			as GameObject).GetComponent<Bullet>();
 
 		//shoot light from clicked to adjacent tile if toggling adjacent tile on
-		if(tile.state == TileState.OFF){
+		if(adjacent.state == TileState.OFF){
 			bullet.transform.position = clicked.transform.position;
-			bullet.SetTarget(tile.gameObject);
+			bullet.SetTarget(adjacent.gameObject);
 		} else {
 		//absorb light from target back into clicked ifelButton toggling adjacent off
-			bullet.transform.position = tile.gameObject.transform.position;
+			bullet.transform.position = adjacent.gameObject.transform.position;
 			bullet.SetTarget(clicked.gameObject);
 		}
 
-		tile.Toggle();
+		adjacent.Toggle();
 		return true;
 
 	}

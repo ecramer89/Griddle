@@ -40,6 +40,18 @@ public class Connection : MonoBehaviour {
 	}
 
 
+	public GridTile GetOther(GridTile first){
+
+		if(a == first) return b;
+		if(b == first) return a;
+
+		throw new Exception("Argument first (GridTile) is not a member of this connection.");
+
+
+
+	}
+
+
 
 
 

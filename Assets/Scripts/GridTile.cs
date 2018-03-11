@@ -104,6 +104,15 @@ public class GridTile : MonoBehaviour {
 	}
 
 
+
+	public GridTile GetAdjacentTile(Direction outboundDirection){
+		Connection outboundConnection = GetConnection(outboundDirection);
+		if(outboundConnection == null) return null;
+		return outboundConnection.GetOther(this);
+
+	}
+
+
 	public void RotateDown(){
 		rotatingOut = true;
 
