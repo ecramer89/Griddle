@@ -65,6 +65,10 @@ public class GridTile : MonoBehaviour {
 	private bool rotatingOut = false;
 
 
+	[HideInInspector]
+	public Connection[] outboundConnections;
+
+
 
 
 	void Awake(){
@@ -73,7 +77,30 @@ public class GridTile : MonoBehaviour {
 	
 		sprite = GetComponent<SpriteRenderer>();
 
+		outboundConnections = new Connection[4];
+
 	
+	}
+
+
+	public Connection GetConnection(Direction outboundDirection){
+		return outboundConnections[(int)outboundDirection];
+
+	}
+
+	public void SetConnection(Direction outboundDirection, Connection connection){
+		if(connection != null){
+			if(connection.A == null || connection.B == null || connection.A == connection.B || (connection.A != this && connection.B != this)){
+				throw new Exception("Attempting to initialize a grid tile connection to a connection that does not reference this gridtile.");
+			}
+		}
+
+
+		if(outboundConnections[(int)outboundDirection] != null){
+			throw new Exception("Attempting to overwrite an existing grid tile connection.");
+		}
+
+		outboundConnections[(int)outboundDirection] = connection;
 	}
 
 

@@ -16,7 +16,7 @@ public class Column : MonoBehaviour {
 	private static int gridHeight = -1;
 
 	// Use this for initialization
-	void Start () {
+	public void Init () {
 		
 		int x;
 	
