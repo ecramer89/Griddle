@@ -111,9 +111,9 @@ public class GridTile : MonoBehaviour {
 		if(rotatingOut){
 			transform.Rotate(Vector3.forward * Time.deltaTime * 1.5f);
 			transform.localScale = transform.localScale * .99f;
-			Debug.Log(transform.localScale.magnitude);
+
 			if(transform.localScale.magnitude < .1){
-				Debug.Log("dead");
+
 				rotatingOut = false;
 				GameObject.Destroy(gameObject);
 				Game.instance.TileGameOverAnimationDone();
