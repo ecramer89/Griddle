@@ -34,6 +34,7 @@ public class Game : MonoBehaviour {
 		}
 		if(Input.GetMouseButtonDown(1)){
 			ToggleReachable(tile);
+			UpdateConnections();
 			CheckWin();
 		}
 
@@ -78,7 +79,6 @@ public class Game : MonoBehaviour {
 	//returns the number of tiles that were toggled.
 	private bool ToggleAdjacent(GridTile clicked, Direction direction){
 
-		Debug.Log(clicked.name+" "+direction);
 
 		GridTile adjacent = clicked.GetAdjacentTile(direction);
 
@@ -114,27 +114,89 @@ public class Game : MonoBehaviour {
 		}
 
 
-		//shoot a bullet at tile from clicked
-		/*Bullet bullet = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) 
-			as GameObject).GetComponent<Bullet>();*/
+	
+		//adjacent will turn on
+		/*if(adjacent.state == TileState.OFF){
+			//since clicked toggles state after toggling any on other tile, it will be ON at the end of this routine
+			if(clicked.state == TileState.OFF){
+				clicked.GetConnection(direction).BuildConnectionFrom(clicked);
+			} else {
+				//clicked will turn OFF at the end of this routine, so make it look as though it's donating light
+				//to adjacent.
+				Bullet.FireBulletFromTo(clicked.gameObject, adjacent.gameObject);
+			}
 
-		//shoot light from clicked to adjacent tile if toggling adjacent tile on
-		if(adjacent.state == TileState.OFF){
-			clicked.GetConnection(direction).InitiateBuildRoutine(clicked);
-			//bullet.transform.position = clicked.transform.position;
-			//bullet.SetTarget(adjacent.gameObject);
-		} else {
-			clicked.GetConnection(direction).InitiateDissolveRoutine();
-		//absorb light from target back into clicked ifelButton toggling adjacent off
-			//bullet.transform.position = adjacent.gameObject.transform.position;
-			//bullet.SetTarget(clicked.gameObject);
+		}
+
+		//adjacent will turn OFF
+		if(adjacent.state == TileState.ON){
+			//collapse each connection in adjacent
+
+
+
+			//clicked will ALSO turn off
+			if(clicked.state == TileState.ON){
+				clicked.GetConnection(direction).CollapseConnection();
+			} else {
+				//make it look as though clicked isstealing energy from adjacent, since it will toggle ON
+				Bullet.FireBulletFromTo(adjacent.gameObject, clicked.gameObject);
+			}
+
+
+		}
+
+*/
+
+		//when any tile turns off, we need to collapse ALL the connections between it and any other tile.
+
+		adjacent.Toggle();
+		return true;
+
+	}
+
+	private void UpdateConnections(){
+		foreach(Connection connection in Connection.AllConnections()){
+			UpdateConnection(connection);
 		}
 
 
 
 
-		adjacent.Toggle();
-		return true;
+	}
+
+
+	private void UpdateConnection(Connection connection){
+
+		GridTile tile = connection.A;
+		GridTile other = connection.GetOther(tile);
+
+		string cname = tile.name+", "+other.name;
+
+		if(other.state == TileState.ON && tile.state == TileState.ON){
+			//draw connection
+		
+			connection.BuildConnectionFrom(tile);
+		}
+		if(other.state == TileState.ON && tile.state == TileState.OFF){
+			connection.ClearConnection();
+		
+			//animate a bullet heading from tile to other
+			Bullet.FireBulletFromTo(tile.gameObject, other.gameObject);
+
+		}
+		if(other.state == TileState.OFF && tile.state == TileState.ON){
+			connection.ClearConnection();
+		
+			//animate a bullet heading from tile to other
+			Bullet.FireBulletFromTo(other.gameObject, tile.gameObject);
+
+		}
+		if(other.state == TileState.OFF && tile.state == TileState.OFF){
+			//if there is a connection, collapse it
+		
+			connection.CollapseConnection();
+
+		}
 
 	}
 

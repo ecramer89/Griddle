@@ -200,6 +200,7 @@ public class GridTile : MonoBehaviour {
 			case TileState.ON:
 				sprite.color =  Settings.global.tileEndColor;
 				glow.SetActive(true);
+			    
 				Glow.Synchronize();
 			break;
 			case TileState.OFF:

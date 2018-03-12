@@ -9,7 +9,11 @@ public class Board : MonoBehaviour {
 
 
 	private List<Column> columns;
+	public static Board instance;
 
+	void Awake(){
+		instance = this;
+	}
 	// Use this for initialization
 	void Start () {
 		//find all columns, tell them to initialize.
@@ -85,8 +89,8 @@ public class Board : MonoBehaviour {
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	public List<Column> GetColumns(){
+		return columns;
+
 	}
 }
