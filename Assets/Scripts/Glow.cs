@@ -23,6 +23,12 @@ public class Glow : MonoBehaviour {
 		normed = startingScale.normalized;
 		allGlows.Add(this);
 	}
+
+	public void UpateScale(Vector3 newScale){
+		this.gameObject.transform.localScale = newScale;
+		startingScale = newScale;
+
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -44,7 +50,7 @@ public class Glow : MonoBehaviour {
 
 			pulseTimer += Time.deltaTime;
 
-			transform.localScale = startingScale + (normed * Mathf.Sin(pulseTimer * .5f));
+			transform.localScale = startingScale + (startingScale * Mathf.Sin(pulseTimer * .5f)) / 2.5f;
 
 		}
 

@@ -124,7 +124,8 @@ public class GridTile : MonoBehaviour {
 			GameObject.Destroy(glow);
 			GameObject.Destroy(gameObject);
 		}
-		glow.GetComponent<Glow>().FadeOut(RotateDown);
+
+		RotateDown();
 
 	}
 
@@ -201,7 +202,6 @@ public class GridTile : MonoBehaviour {
 				sprite.color =  Settings.global.tileEndColor;
 				glow.SetActive(true);
 			    
-				Glow.Synchronize();
 			break;
 			case TileState.OFF:
 				sprite.color =  Settings.global.tileStartColor;

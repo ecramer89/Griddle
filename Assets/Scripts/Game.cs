@@ -112,41 +112,7 @@ public class Game : MonoBehaviour {
 		if(!adjacent.directions.AsEnumerable().Contains(Direction.NORTH)) return false;
 			break;
 		}
-
-
-	
-		//adjacent will turn on
-		/*if(adjacent.state == TileState.OFF){
-			//since clicked toggles state after toggling any on other tile, it will be ON at the end of this routine
-			if(clicked.state == TileState.OFF){
-				clicked.GetConnection(direction).BuildConnectionFrom(clicked);
-			} else {
-				//clicked will turn OFF at the end of this routine, so make it look as though it's donating light
-				//to adjacent.
-				Bullet.FireBulletFromTo(clicked.gameObject, adjacent.gameObject);
-			}
-
-		}
-
-		//adjacent will turn OFF
-		if(adjacent.state == TileState.ON){
-			//collapse each connection in adjacent
-
-
-
-			//clicked will ALSO turn off
-			if(clicked.state == TileState.ON){
-				clicked.GetConnection(direction).CollapseConnection();
-			} else {
-				//make it look as though clicked isstealing energy from adjacent, since it will toggle ON
-				Bullet.FireBulletFromTo(adjacent.gameObject, clicked.gameObject);
-			}
-
-
-		}
-
-*/
-
+			
 		//when any tile turns off, we need to collapse ALL the connections between it and any other tile.
 
 		adjacent.Toggle();
@@ -174,12 +140,14 @@ public class Game : MonoBehaviour {
 
 		if(other.state == TileState.ON && tile.state == TileState.ON){
 			//draw connection
-		
+
 			connection.BuildConnectionFrom(tile);
+			//de-activate the per tile glows; they glow together now.
+			other.glow.SetActive(false);
+			tile.glow.SetActive(false);
 		}
 		if(other.state == TileState.ON && tile.state == TileState.OFF){
 			connection.ClearConnection();
-		
 			//animate a bullet heading from tile to other
 			Bullet.FireBulletFromTo(tile.gameObject, other.gameObject);
 
@@ -190,10 +158,11 @@ public class Game : MonoBehaviour {
 			//animate a bullet heading from tile to other
 			Bullet.FireBulletFromTo(other.gameObject, tile.gameObject);
 
+
 		}
 		if(other.state == TileState.OFF && tile.state == TileState.OFF){
 			//if there is a connection, collapse it
-		
+
 			connection.CollapseConnection();
 
 		}
@@ -203,9 +172,12 @@ public class Game : MonoBehaviour {
 
 	private void CheckWin(){
 		gameWon = true;
+		Debug.Log("check win?");
 		foreach(GridTile tile in GridTile.All()){
 			if(tile.state == TileState.OFF){
 				gameWon = false;
+
+				Debug.Log("off tile found: "+tile.name);
 				break;
 			}
 		}

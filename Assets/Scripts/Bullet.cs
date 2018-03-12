@@ -52,7 +52,7 @@ public class Bullet : MonoBehaviour {
 					as GameObject);
 				
 
-				nxt.transform.localScale = nxt.transform.localScale * .05f;
+				nxt.GetComponent<Glow>().UpateScale(nxt.transform.localScale * .25f);
 
 				nxt.transform.position = nextPosition + (trajectory * i);
 				HandleNewPoint(nxt);
