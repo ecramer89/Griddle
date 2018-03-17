@@ -199,13 +199,15 @@ public class GridTile : MonoBehaviour {
 				glow.SetActive(false);
 			break;
 			case TileState.ON:
-				sprite.color =  Settings.global.tileEndColor;
+				sprite.color =  Settings.global.tileOnColor;
 				glow.SetActive(true);
+				glow.GetComponent<SpriteRenderer>().color = sprite.color;
 			    
 			break;
 			case TileState.OFF:
-				sprite.color =  Settings.global.tileStartColor;
+				sprite.color =  Settings.global.tileOffColor;
 				glow.SetActive(false);
+				glow.GetComponent<SpriteRenderer>().color = sprite.color;
 			break;
 	
 	

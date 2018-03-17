@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4259069791042810}
   - component: {fileID: 212994004600824960}
-  - component: {fileID: 61828806808806664}
   - component: {fileID: 114911111655031414}
   - component: {fileID: 50470787732989952}
+  - component: {fileID: 58495057296763546}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -63,8 +63,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &61828806808806664
-BoxCollider2D:
+--- !u!58 &58495057296763546
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -76,18 +76,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
-  m_EdgeRadius: 0
+  m_Radius: 1
 --- !u!114 &114911111655031414
 MonoBehaviour:
   m_ObjectHideFlags: 1

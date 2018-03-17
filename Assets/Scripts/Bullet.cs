@@ -58,11 +58,11 @@ public class Bullet : MonoBehaviour {
 		if(buildTrail) {
 			float diam = 0;
 			for(float i = 0; i <= (nextPosition - transform.position).magnitude; i++){
-				GameObject nxt = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) 
+				GameObject nxt = (Instantiate(Resources.Load("Prefabs/Point", typeof(GameObject))) 
 					as GameObject);
 				
 				nxt.transform.localScale = nxt.transform.localScale * .5f;
-				//nxt.GetComponent<Glow>().UpateScale(nxt.transform.localScale * .25f);
+			
 
 				nxt.transform.position = nextPosition + (trajectory * i);
 				HandleNewPoint(nxt);

@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 551b166ff91f84825a062988a4f501ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileInactiveColor: {r: 0, g: 0, b: 0, a: 1}
-  tileStartColor: {r: 0.5795847, g: 0.58823526, b: 0.58816713, a: 1}
-  tileEndColor: {r: 1, g: 1, b: 1, a: 1}
-  winText: You Win!
+  tileNullColor: {r: 0, g: 0, b: 0, a: 0}
+  tileOffColor: {r: 1, g: 0, b: 0, a: 1}
+  tileOnColor: {r: 0, g: 0.8758622, b: 1, a: 1}

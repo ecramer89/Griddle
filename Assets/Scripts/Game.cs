@@ -25,9 +25,7 @@ public class Game : MonoBehaviour {
 		toNextLevelButton = GameObject.Find("ToNextLevelButton");
 		toNextLevelButton.SetActive(false);
 
-		//need to show the connections the first time
-		//may want to have a ganericgame init thing... or have something else set this up
-		//UpdateConnections(); 
+	 
 	}
 
 	public void HandleMouseOverTile(GridTile tile){
@@ -38,7 +36,7 @@ public class Game : MonoBehaviour {
 		}
 		if(Input.GetMouseButtonDown(1)){
 			ToggleReachable(tile);
-			UpdateConnections();
+			UpdateConnections(tile);
 			CheckWin();
 		}
 
@@ -124,9 +122,9 @@ public class Game : MonoBehaviour {
 
 	}
 
-	private void UpdateConnections(){
+	public void UpdateConnections(GridTile clicked = null){
 		foreach(Connection connection in Connection.AllConnections()){
-			UpdateConnection(connection);
+			UpdateConnection(connection, clicked);
 		}
 
 
@@ -135,32 +133,35 @@ public class Game : MonoBehaviour {
 	}
 
 
-	private void UpdateConnection(Connection connection){
+	private void UpdateConnection(Connection connection, GridTile clicked){
 
 		GridTile tile = connection.A;
 		GridTile other = connection.GetOther(tile);
 
-		string cname = tile.name+", "+other.name;
 
 		if(other.state == TileState.ON && tile.state == TileState.ON){
 			//draw connection
 
 			connection.BuildConnectionFrom(tile);
 			//de-activate the per tile glows; they glow together now.
-			other.glow.SetActive(false);
-			tile.glow.SetActive(false);
+			//other.glow.SetActive(false);
+			//tile.glow.SetActive(false);
 		}
 		if(other.state == TileState.ON && tile.state == TileState.OFF){
 			connection.ClearConnection();
-			//animate a bullet heading from tile to other
-			Bullet.FireBulletFromTo(tile.gameObject, other.gameObject);
+			//if user clicked on the tile, animate a bullet heading from tile to other
+			if(tile == clicked || other == clicked) {
+				Bullet.FireBulletFromTo(tile.gameObject, other.gameObject);
+			}
 
 		}
 		if(other.state == TileState.OFF && tile.state == TileState.ON){
 			connection.ClearConnection();
 		
 			//animate a bullet heading from tile to other
-			Bullet.FireBulletFromTo(other.gameObject, tile.gameObject);
+			if(other == clicked || tile == clicked){
+				Bullet.FireBulletFromTo(other.gameObject, tile.gameObject);
+			}
 
 
 		}
@@ -176,12 +177,12 @@ public class Game : MonoBehaviour {
 
 	private void CheckWin(){
 		gameWon = true;
-		Debug.Log("check win?");
+
 		foreach(GridTile tile in GridTile.All()){
 			if(tile.state == TileState.OFF){
 				gameWon = false;
 
-				Debug.Log("off tile found: "+tile.name);
+
 				break;
 			}
 		}

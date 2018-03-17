@@ -86,6 +86,9 @@ public class Board : MonoBehaviour {
 		}
 
 
+		Game.instance.UpdateConnections();
+
+
 		
 	}
 	

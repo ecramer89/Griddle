@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour {
 
-	public Color tileInactiveColor;
-	public Color tileStartColor;
-	public Color tileEndColor;
+	public Color tileNullColor;
+	public Color tileOffColor;
+	public Color tileOnColor;
 
-	public string winText = "You Win!";
 
 	public static Settings global;
 
