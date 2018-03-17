@@ -52,5 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileNullColor: {r: 0, g: 0, b: 0, a: 0}
-  tileOffColor: {r: 1, g: 0, b: 0, a: 1}
+  tileOffColor: {r: 0.17225347, g: 0.36915198, b: 0.39705884, a: 1}
   tileOnColor: {r: 0, g: 0.8758622, b: 1, a: 1}

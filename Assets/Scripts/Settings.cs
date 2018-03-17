@@ -9,6 +9,7 @@ public class Settings : MonoBehaviour {
 	public Color tileOnColor;
 
 
+
 	public static Settings global;
 
 

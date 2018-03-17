@@ -8,7 +8,7 @@ public class Glow : MonoBehaviour {
 
 	private float pulseTimer = 0f;
 	private Vector3 startingScale;
-	private Vector3 normed;
+
 
 	private bool fading = false;
 	private Action onFaded;
@@ -20,7 +20,7 @@ public class Glow : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		startingScale = transform.localScale;
-		normed = startingScale.normalized;
+
 		allGlows.Add(this);
 	}
 

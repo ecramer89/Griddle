@@ -56,7 +56,7 @@ public class Bullet : MonoBehaviour {
 		Vector3 nextPosition = this.transform.position + (Time.deltaTime * unitsPerSecond * trajectory);
 	    
 		if(buildTrail) {
-			float diam = 0;
+			
 			for(float i = 0; i <= (nextPosition - transform.position).magnitude; i++){
 				GameObject nxt = (Instantiate(Resources.Load("Prefabs/Point", typeof(GameObject))) 
 					as GameObject);

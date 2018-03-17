@@ -6,6 +6,7 @@ using System;
 public class Connection : MonoBehaviour {
 
 
+
 	private GridTile a;
 	public GridTile A{
 		get { return a; }
@@ -26,7 +27,15 @@ public class Connection : MonoBehaviour {
 
 	private static List<Connection> allConnections;
 
+	private Color color;
 
+	public Color Color{
+		get {
+			return color;
+
+		} 
+
+	}
 
 	public void Awake(){
 		if(allConnections == null){
@@ -73,6 +82,16 @@ public class Connection : MonoBehaviour {
 	}
 
 
+	public void SetColor(Color newColor){
+		this.color = newColor;
+		foreach(GameObject point in points){
+			point.GetComponent<SpriteRenderer>().color = newColor;
+
+		}
+
+	}
+
+
 	public void Update(){
 
 		if(collapsing && points.Count > 0){
@@ -98,6 +117,7 @@ public class Connection : MonoBehaviour {
 
 		if(a == null || b == null) return;
 		if(a != from && b != from) return;
+		if(a.state == TileState.NULL || b.state == TileState.NULL) return;
 
 
 	
@@ -112,7 +132,7 @@ public class Connection : MonoBehaviour {
 
 
 	private void HoldTrail(GameObject point){
-
+		point.GetComponent<SpriteRenderer>().color=color;
 		points.Add(point);
 
 	}

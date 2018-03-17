@@ -25,6 +25,11 @@ public class Game : MonoBehaviour {
 		toNextLevelButton = GameObject.Find("ToNextLevelButton");
 		toNextLevelButton.SetActive(false);
 
+		Board.instance.Init();
+
+		DrawConnections();
+		UpdateConnections();
+
 	 
 	}
 
@@ -122,7 +127,14 @@ public class Game : MonoBehaviour {
 
 	}
 
-	public void UpdateConnections(GridTile clicked = null){
+	private void DrawConnections(){
+		foreach(Connection connection in Connection.AllConnections()){
+			connection.BuildConnectionFrom(connection.A);
+		}
+
+	}
+
+	private void UpdateConnections(GridTile clicked = null){
 		foreach(Connection connection in Connection.AllConnections()){
 			UpdateConnection(connection, clicked);
 		}
@@ -139,16 +151,21 @@ public class Game : MonoBehaviour {
 		GridTile other = connection.GetOther(tile);
 
 
+		connection.SetColor(Settings.global.tileOffColor);
+
 		if(other.state == TileState.ON && tile.state == TileState.ON){
 			//draw connection
-
-			connection.BuildConnectionFrom(tile);
+			if(tile == clicked || other == clicked) {
+				connection.SetColor(Settings.global.tileOnColor);
+			}
+			//connection.BuildConnectionFrom(tile);
 			//de-activate the per tile glows; they glow together now.
 			//other.glow.SetActive(false);
 			//tile.glow.SetActive(false);
 		}
 		if(other.state == TileState.ON && tile.state == TileState.OFF){
-			connection.ClearConnection();
+			
+			//connection.ClearConnection();
 			//if user clicked on the tile, animate a bullet heading from tile to other
 			if(tile == clicked || other == clicked) {
 				Bullet.FireBulletFromTo(tile.gameObject, other.gameObject);
@@ -156,7 +173,7 @@ public class Game : MonoBehaviour {
 
 		}
 		if(other.state == TileState.OFF && tile.state == TileState.ON){
-			connection.ClearConnection();
+			//connection.ClearConnection();
 		
 			//animate a bullet heading from tile to other
 			if(other == clicked || tile == clicked){
@@ -164,11 +181,15 @@ public class Game : MonoBehaviour {
 			}
 
 
+
+
 		}
 		if(other.state == TileState.OFF && tile.state == TileState.OFF){
 			//if there is a connection, collapse it
 
-			connection.CollapseConnection();
+			//connection.CollapseConnection();
+
+			connection.SetColor(Settings.global.tileOffColor);
 
 		}
 
@@ -192,6 +213,8 @@ public class Game : MonoBehaviour {
 			foreach(GridTile tile in GridTile.All()){
 				tile.BeginEndGameAnimation();
 			}
+
+
 
 
 		}

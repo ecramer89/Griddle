@@ -14,8 +14,11 @@ public class Board : MonoBehaviour {
 	void Awake(){
 		instance = this;
 	}
+
+
+
 	// Use this for initialization
-	void Start () {
+	public void Init () {
 		//find all columns, tell them to initialize.
 		//establish the connections between each pir of grid tiles
 
@@ -86,7 +89,7 @@ public class Board : MonoBehaviour {
 		}
 
 
-		Game.instance.UpdateConnections();
+
 
 
 		
