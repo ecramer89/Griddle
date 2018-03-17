@@ -33,26 +33,36 @@ public class Bullet : MonoBehaviour {
 
 	public void SetTarget(GameObject target){
 		this.target = target;
+		UpdateTrajectory();
+	
+	}
+
+
+	private void UpdateTrajectory(){
+		
 		trajectory = target.transform.position - gameObject.transform.position;
 		trajectory = trajectory.normalized;
 	}
 
 
-
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if(target == null) return;
+
+		UpdateTrajectory();
 
 		Vector3 nextPosition = this.transform.position + (Time.deltaTime * unitsPerSecond * trajectory);
 	    
 		if(buildTrail) {
 			float diam = 0;
 			for(float i = 0; i <= (nextPosition - transform.position).magnitude; i++){
-				GameObject nxt = (Instantiate(Resources.Load("Prefabs/Glow", typeof(GameObject))) 
+				GameObject nxt = (Instantiate(Resources.Load("Prefabs/Bullet", typeof(GameObject))) 
 					as GameObject);
 				
-
-				nxt.GetComponent<Glow>().UpateScale(nxt.transform.localScale * .25f);
+				nxt.transform.localScale = nxt.transform.localScale * .5f;
+				//nxt.GetComponent<Glow>().UpateScale(nxt.transform.localScale * .25f);
 
 				nxt.transform.position = nextPosition + (trajectory * i);
 				HandleNewPoint(nxt);
@@ -68,7 +78,9 @@ public class Bullet : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if(other.gameObject.Equals(target)) GameObject.Destroy(gameObject);
+		if(other.gameObject.Equals(target)) {
+			GameObject.Destroy(gameObject);
+		}
 	}
 
 

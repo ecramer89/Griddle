@@ -24,6 +24,10 @@ public class Game : MonoBehaviour {
 	void Start(){
 		toNextLevelButton = GameObject.Find("ToNextLevelButton");
 		toNextLevelButton.SetActive(false);
+
+		//need to show the connections the first time
+		//may want to have a ganericgame init thing... or have something else set this up
+		//UpdateConnections(); 
 	}
 
 	public void HandleMouseOverTile(GridTile tile){
