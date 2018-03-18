@@ -63,7 +63,6 @@ public class GridTile : MonoBehaviour {
 	public GameObject glow;
 
 	private bool rotatingOut = false;
-	private TileState previousState;
 
 	[HideInInspector]
 	public Connection[] outboundConnections;
@@ -195,7 +194,7 @@ public class GridTile : MonoBehaviour {
 	}
 
 	public void SetState(TileState state){
-		this.previousState = this.state;
+		
 		this.state = state;
 		switch(this.state){
 			case TileState.NULL:

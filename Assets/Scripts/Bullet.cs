@@ -27,6 +27,11 @@ public class Bullet : MonoBehaviour {
 	
 	}
 
+	public void Start(){
+		GetComponent<SpriteRenderer>().color = Settings.global.tileOnColor;
+
+	}
+
 
 
 

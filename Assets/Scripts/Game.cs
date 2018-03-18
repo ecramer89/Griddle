@@ -123,6 +123,24 @@ public class Game : MonoBehaviour {
 		//when any tile turns off, we need to collapse ALL the connections between it and any other tile.
 
 		adjacent.Toggle();
+
+		//fire bullet between clicked and adjacent.
+		//state of clicked tile won't update until after loop finishes (since toggling state of clicked conditonal
+		//on toggling state of at least one other grid tile) so we just preview the next state here.
+		//(i.e., we know that clicked will toggle state, since if we're here then clicked toggled something)
+		TileState clickedTileNextState = clicked.state == TileState.OFF ? TileState.ON : TileState.OFF;
+
+		if(adjacent.state == TileState.ON && clickedTileNextState == TileState.OFF){
+			Bullet.FireBulletFromTo(clicked.gameObject, adjacent.gameObject);
+		}
+		if(adjacent.state == TileState.OFF && clickedTileNextState == TileState.ON){
+			Bullet.FireBulletFromTo(adjacent.gameObject, clicked.gameObject);
+		}
+
+
+
+
+
 		return true;
 
 	}
@@ -154,44 +172,23 @@ public class Game : MonoBehaviour {
 		connection.SetColor(Settings.global.tileOffColor);
 
 		if(other.state == TileState.ON && tile.state == TileState.ON){
-			//draw connection
-			if(tile == clicked || other == clicked) {
-				connection.SetColor(Settings.global.tileOnColor);
-			}
-			//connection.BuildConnectionFrom(tile);
-			//de-activate the per tile glows; they glow together now.
-			//other.glow.SetActive(false);
-			//tile.glow.SetActive(false);
-		}
-		if(other.state == TileState.ON && tile.state == TileState.OFF){
-			
-			//connection.ClearConnection();
-			//if user clicked on the tile, animate a bullet heading from tile to other
-			if(tile == clicked || other == clicked) {
+
+			connection.SetColor(Settings.global.tileOnColor);
+
+			if(tile == clicked) {
 				Bullet.FireBulletFromTo(tile.gameObject, other.gameObject);
 			}
 
-		}
-		if(other.state == TileState.OFF && tile.state == TileState.ON){
-			//connection.ClearConnection();
-		
-			//animate a bullet heading from tile to other
-			if(other == clicked || tile == clicked){
+			if(other == clicked){
 				Bullet.FireBulletFromTo(other.gameObject, tile.gameObject);
 			}
-
-
-
-
+		
 		}
+
 		if(other.state == TileState.OFF && tile.state == TileState.OFF){
-			//if there is a connection, collapse it
-
-			//connection.CollapseConnection();
-
 			connection.SetColor(Settings.global.tileOffColor);
-
 		}
+			
 
 	}
 
