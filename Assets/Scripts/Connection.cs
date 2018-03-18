@@ -160,6 +160,8 @@ public class Connection : MonoBehaviour {
 	
 		GridTile target = a == from ? b: a;
 		Bullet bullet = Bullet.FireBulletFromTo(from.gameObject, target.gameObject);
+		//jitter start position out by srite radius units from center of the origin sprite.
+		bullet.transform.position +=  (bullet.Trajectory * from.GetComponent<SpriteRenderer>().size.x/2);
 		bullet.buildTrail = true;
 		bullet.HandleNewPoint += HoldTrail;
 

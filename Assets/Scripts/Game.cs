@@ -134,15 +134,18 @@ public class Game : MonoBehaviour {
 		//on toggling state of at least one other grid tile) so we just preview the next state here.
 		//(i.e., we know that clicked will toggle state, since if we're here then clicked toggled something)
 		TileState clickedTileNextState = clicked.state == TileState.OFF ? TileState.ON : TileState.OFF;
-
+		Bullet fired = null;
 		if(adjacent.state == TileState.ON){
-			Bullet.FireBulletFromTo(clicked.gameObject, adjacent.gameObject);
+			fired = Bullet.FireBulletFromTo(clicked.gameObject, adjacent.gameObject);
 		}
 		if(adjacent.state == TileState.OFF && clickedTileNextState == TileState.ON){
-			Bullet.FireBulletFromTo(adjacent.gameObject, clicked.gameObject);
+			fired = Bullet.FireBulletFromTo(adjacent.gameObject, clicked.gameObject);
 		}
 
+		if(fired != null){
+			fired.transform.position += (fired.Trajectory * clicked.GetComponent<SpriteRenderer>().size.x/2);
 
+		}
 
 
 

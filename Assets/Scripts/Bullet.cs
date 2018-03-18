@@ -10,6 +10,10 @@ public class Bullet : MonoBehaviour {
 
 	private GameObject target;
 	private Vector3 trajectory = Vector3.zero;
+	public Vector3 Trajectory{
+		get { return trajectory; }
+
+	}
 	[HideInInspector]
 	public bool buildTrail;
 
@@ -23,6 +27,8 @@ public class Bullet : MonoBehaviour {
 
 		bullet.transform.position = from.transform.position;
 		bullet.SetTarget(to);
+
+
 		return bullet;
 	
 	}
@@ -67,9 +73,10 @@ public class Bullet : MonoBehaviour {
 					as GameObject);
 				
 				//nxt.transform.localScale = nxt.transform.localScale; * .5f;
-			
 
-				nxt.transform.position = nextPosition;// + (trajectory * i);
+			    //randomly jitter the bullets a bit
+				nxt.transform.position = nextPosition + 
+					new Vector3(UnityEngine.Random.Range(-.25f, .25f), UnityEngine.Random.Range(-.25f, .25f), 0);
 				HandleNewPoint(nxt);
 
 
