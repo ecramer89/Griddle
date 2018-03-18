@@ -54,6 +54,13 @@ public class Column : MonoBehaviour {
 			glow.transform.position=tile.transform.position;
 			tile.glow = glow;
 			tile.directions = placeholder.GetDirections();
+
+			Eye eye = (Instantiate(Resources.Load("Prefabs/Eye", typeof(GameObject))) 
+				as GameObject).GetComponent<Eye>();
+			eye.transform.position=tile.transform.position;
+			eye.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder + 1;
+			tile.eye = eye;
+
 		
 			tile.column = this;
 			SpriteRenderer sr = placeholder.GetComponent<SpriteRenderer>();

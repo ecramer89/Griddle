@@ -51,4 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83508730e69d34b9cb1c53f2bc195f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changePerSecond: 0.1
+  open: {fileID: 21300000, guid: 2671ef8cb098b4c5a8e16394d26cb2b1, type: 3}
+  closed: {fileID: 21300000, guid: a5087a4ad7d6044538fd28baa6948828, type: 3}

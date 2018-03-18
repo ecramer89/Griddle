@@ -5,7 +5,7 @@ using System;
 
 public class Bullet : MonoBehaviour {
 
-	public float unitsPerSecond = 8f;
+	public float unitsPerSecond = 1000f;
 	public float pointDiam = 1f;
 
 	private GameObject target;
@@ -62,18 +62,18 @@ public class Bullet : MonoBehaviour {
 	    
 		if(buildTrail) {
 			
-			for(float i = 0; i <= (nextPosition - transform.position).magnitude; i++){
+			//for(float i = 0; i <= (nextPosition - transform.position).magnitude; i++){
 				GameObject nxt = (Instantiate(Resources.Load("Prefabs/Point", typeof(GameObject))) 
 					as GameObject);
 				
-				nxt.transform.localScale = nxt.transform.localScale * .5f;
+				//nxt.transform.localScale = nxt.transform.localScale; * .5f;
 			
 
-				nxt.transform.position = nextPosition + (trajectory * i);
+				nxt.transform.position = nextPosition;// + (trajectory * i);
 				HandleNewPoint(nxt);
 
 
-			}
+			//}
 		}
 
 

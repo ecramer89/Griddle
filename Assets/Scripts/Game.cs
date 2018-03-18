@@ -152,7 +152,7 @@ public class Game : MonoBehaviour {
 		foreach(Connection connection in ofTile.GetConnections()){
 			if(connection == null) continue;
 
-			if(TilesAreRotatedTowardsEachOther(connection)){
+			if(connection.IsPassable()){
 				connection.BuildConnectionFrom(ofTile);
 			} else {
 				connection.CollapseConnection();
@@ -171,7 +171,7 @@ public class Game : MonoBehaviour {
 
 		//build connections between tiles that are currently connected based on their current orientation.
 		foreach(Connection connection in Connection.AllConnections()){
-			if(TilesAreRotatedTowardsEachOther(connection)){
+			if(connection.IsPassable()){
 				connection.BuildConnectionFrom(connection.A);
 			}
 
@@ -180,17 +180,7 @@ public class Game : MonoBehaviour {
 	}
 
 
-	private bool TilesAreRotatedTowardsEachOther(Connection connection){
-		
-		if(connection.A.state == TileState.NULL || connection.B.state == TileState.NULL) return false;
 
-		Direction outboundDirection = connection.A.GetComponent<GridTile>().GetOutboundDirectionOf(connection);
-
-		return connection.A.directions.Contains(outboundDirection)
-			&& connection.B.directions.Contains(outboundDirection.Opposite());
-	
-		
-	}
 
 
 	private void RecolorConnections(GridTile clicked = null){
@@ -209,13 +199,14 @@ public class Game : MonoBehaviour {
 
 
 		connection.SetColor(Settings.global.tileOffColor);
+		connection.TurnOff();
 
 		if(other.state == TileState.ON && tile.state == TileState.ON){
 
 			connection.SetColor(Settings.global.tileOnColor);
-		} else {
-			connection.SetColor(Settings.global.tileOffColor);
-		}
+			connection.TurnOn();
+
+		} 
 
 	}
 

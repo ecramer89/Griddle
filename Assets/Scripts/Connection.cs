@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class Connection : MonoBehaviour {
 
@@ -37,6 +38,29 @@ public class Connection : MonoBehaviour {
 
 	}
 
+	public Sprite open;
+	public Sprite closed;
+
+	private Sprite currentSprite;
+
+
+	public void TurnOff(){
+		currentSprite = closed;
+		foreach(GameObject point in points){
+			point.GetComponent<SpriteRenderer>().sprite = currentSprite;
+
+		}
+	}
+
+
+	public void TurnOn(){
+		currentSprite = open;
+		foreach(GameObject point in points){
+			point.GetComponent<SpriteRenderer>().sprite = currentSprite;
+
+		}
+	}
+
 
 
 
@@ -64,6 +88,16 @@ public class Connection : MonoBehaviour {
 		allConnections.Remove(this);
 	}
 
+	//connection is passable if the twotiles A and B are currently rotated towards one another.
+	public bool IsPassable(){
+		
+		if(A.state == TileState.NULL || B.state == TileState.NULL) return false;
+
+		Direction outboundDirection = A.GetComponent<GridTile>().GetOutboundDirectionOf(this);
+
+		return A.directions.Contains(outboundDirection)
+			&& B.directions.Contains(outboundDirection.Opposite());
+	}
 
 
 	public void SetGridTile(GridTile tile){
@@ -136,6 +170,7 @@ public class Connection : MonoBehaviour {
 
 	private void HoldTrail(GameObject point){
 		point.GetComponent<SpriteRenderer>().color=color;
+		point.GetComponent<SpriteRenderer>().sprite=currentSprite;
 		points.Add(point);
 
 	}
