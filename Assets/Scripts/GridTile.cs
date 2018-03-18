@@ -175,6 +175,7 @@ public class GridTile : MonoBehaviour {
 				rotatingOut = false;
 				GameObject.Destroy(gameObject);
 				GameObject.Destroy(eye.gameObject);
+				GameObject.Destroy(glow.gameObject);
 				Game.instance.TileGameOverAnimationDone();
 			
 			}

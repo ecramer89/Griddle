@@ -83,6 +83,9 @@ public class Game : MonoBehaviour {
 
 	public void TileGameOverAnimationDone(){
 		toNextLevelButton.SetActive(true);
+		foreach(Connection connection in Connection.AllConnections()){
+			connection.CollapseConnection();
+		}
 	}
 
 
