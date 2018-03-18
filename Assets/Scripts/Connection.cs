@@ -37,6 +37,9 @@ public class Connection : MonoBehaviour {
 
 	}
 
+
+
+
 	public void Awake(){
 		if(allConnections == null){
 

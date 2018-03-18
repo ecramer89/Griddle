@@ -81,9 +81,21 @@ public class GridTile : MonoBehaviour {
 	
 	}
 
-	public bool StateChanged(){
-		return state != previousState;
+	public Connection[] GetConnections(){
+		return outboundConnections;
 	}
+
+
+	public Direction GetOutboundDirectionOf(Connection connection){
+		
+		for(int i=0;i<outboundConnections.Length;i++){
+			if(connection == outboundConnections[i]) return (Direction)i;
+		}
+
+		throw new Exception("Connection does not belong to this grid tile");
+
+	}
+
 
 	public Connection GetConnection(Direction outboundDirection){
 		return outboundConnections[(int)outboundDirection];

@@ -27,21 +27,24 @@ public class Game : MonoBehaviour {
 
 		Board.instance.Init();
 
-		DrawConnections();
-		UpdateConnections();
-
+	
+		InitializeConnections();
 	 
 	}
+
+
+
 
 	public void HandleMouseOverTile(GridTile tile){
 		if(gameWon) return;
 
 		if(Input.GetMouseButtonDown(0)){
 			tile.Rotate();
+			CollapseBrokenConnections(tile);
 		}
 		if(Input.GetMouseButtonDown(1)){
 			ToggleReachable(tile);
-			UpdateConnections(tile);
+			RecolorConnections(tile);
 			CheckWin();
 		}
 
@@ -102,21 +105,18 @@ public class Game : MonoBehaviour {
 		//depending on current direction, if tile doesn't contain opposite direction, then break
 		//since it doesn't connect
 
-
-
-
 		switch(direction){
 		case Direction.EAST:
-			if(!adjacent.directions.AsEnumerable().Contains(Direction.WEST)) return false;
+			if(!adjacent.directions.Contains(Direction.WEST)) return false;
 			break;
 		case Direction.NORTH:
-		if(!adjacent.directions.AsEnumerable().Contains(Direction.SOUTH)) return false;
+		if(!adjacent.directions.Contains(Direction.SOUTH)) return false;
 			break;
 		case Direction.WEST:
-			if(!adjacent.directions.AsEnumerable().Contains(Direction.EAST)) return false;
+			if(!adjacent.directions.Contains(Direction.EAST)) return false;
 			break;
 		case Direction.SOUTH:
-		if(!adjacent.directions.AsEnumerable().Contains(Direction.NORTH)) return false;
+		if(!adjacent.directions.Contains(Direction.NORTH)) return false;
 			break;
 		}
 			
@@ -130,7 +130,7 @@ public class Game : MonoBehaviour {
 		//(i.e., we know that clicked will toggle state, since if we're here then clicked toggled something)
 		TileState clickedTileNextState = clicked.state == TileState.OFF ? TileState.ON : TileState.OFF;
 
-		if(adjacent.state == TileState.ON && clickedTileNextState == TileState.OFF){
+		if(adjacent.state == TileState.ON){
 			Bullet.FireBulletFromTo(clicked.gameObject, adjacent.gameObject);
 		}
 		if(adjacent.state == TileState.OFF && clickedTileNextState == TileState.ON){
@@ -141,29 +141,68 @@ public class Game : MonoBehaviour {
 
 
 
+
 		return true;
 
 	}
 
-	private void DrawConnections(){
+
+	private void CollapseBrokenConnections(GridTile ofTile){
+
+		foreach(Connection connection in ofTile.GetConnections()){
+			if(connection == null) continue;
+
+			if(TilesAreRotatedTowardsEachOther(connection)){
+				connection.BuildConnectionFrom(ofTile);
+			} else {
+				connection.CollapseConnection();
+
+			}
+
+		}
+
+
+	}
+
+
+	private void InitializeConnections(){
+
+		RecolorConnections();
+
+		//build connections between tiles that are currently connected based on their current orientation.
 		foreach(Connection connection in Connection.AllConnections()){
-			connection.BuildConnectionFrom(connection.A);
+			if(TilesAreRotatedTowardsEachOther(connection)){
+				connection.BuildConnectionFrom(connection.A);
+			}
+
 		}
 
 	}
 
-	private void UpdateConnections(GridTile clicked = null){
+
+	private bool TilesAreRotatedTowardsEachOther(Connection connection){
+		
+		if(connection.A.state == TileState.NULL || connection.B.state == TileState.NULL) return false;
+
+		Direction outboundDirection = connection.A.GetComponent<GridTile>().GetOutboundDirectionOf(connection);
+
+		return connection.A.directions.Contains(outboundDirection)
+			&& connection.B.directions.Contains(outboundDirection.Opposite());
+	
+		
+	}
+
+
+	private void RecolorConnections(GridTile clicked = null){
 		foreach(Connection connection in Connection.AllConnections()){
-			UpdateConnection(connection, clicked);
+			RecolorConnection(connection, clicked);
 		}
-
-
 
 
 	}
 
 
-	private void UpdateConnection(Connection connection, GridTile clicked){
+	private void RecolorConnection(Connection connection, GridTile clicked){
 
 		GridTile tile = connection.A;
 		GridTile other = connection.GetOther(tile);
@@ -174,21 +213,9 @@ public class Game : MonoBehaviour {
 		if(other.state == TileState.ON && tile.state == TileState.ON){
 
 			connection.SetColor(Settings.global.tileOnColor);
-
-			if(tile == clicked) {
-				Bullet.FireBulletFromTo(tile.gameObject, other.gameObject);
-			}
-
-			if(other == clicked){
-				Bullet.FireBulletFromTo(other.gameObject, tile.gameObject);
-			}
-		
-		}
-
-		if(other.state == TileState.OFF && tile.state == TileState.OFF){
+		} else {
 			connection.SetColor(Settings.global.tileOffColor);
 		}
-			
 
 	}
 
