@@ -127,6 +127,8 @@ public class Game : MonoBehaviour {
 
 		adjacent.Toggle();
 
+		AudioSourceController.instance.PushClip("pluck");
+
 		//fire bullet between clicked and adjacent.
 		//state of clicked tile won't update until after loop finishes (since toggling state of clicked conditonal
 		//on toggling state of at least one other grid tile) so we just preview the next state here.
