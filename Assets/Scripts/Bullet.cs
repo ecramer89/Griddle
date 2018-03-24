@@ -75,8 +75,7 @@ public class Bullet : MonoBehaviour {
 				//nxt.transform.localScale = nxt.transform.localScale; * .5f;
 
 			    //randomly jitter the bullets a bit
-				nxt.transform.position = nextPosition + 
-					new Vector3(UnityEngine.Random.Range(-.25f, .25f), UnityEngine.Random.Range(-.25f, .25f), 0);
+			nxt.transform.position = nextPosition; //+ new Vector3(UnityEngine.Random.Range(-.25f, .25f), UnityEngine.Random.Range(-.25f, .25f), 0);
 				HandleNewPoint(nxt);
 
 

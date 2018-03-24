@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public class Glow : MonoBehaviour {
+public class SizePulse : MonoBehaviour {
 
 	private float pulseTimer = 0f;
 	private Vector3 startingScale;
@@ -14,14 +14,14 @@ public class Glow : MonoBehaviour {
 	private Action onFaded;
 
 
-	private static List<Glow> allGlows = new List<Glow>();
+	private static List<SizePulse> allSizePulses = new List<SizePulse>();
 
 
 	// Use this for initialization
 	void Start () {
 		startingScale = transform.localScale;
 
-		allGlows.Add(this);
+		allSizePulses.Add(this);
 	}
 
 	public void UpateScale(Vector3 newScale){
@@ -58,13 +58,13 @@ public class Glow : MonoBehaviour {
 	}
 
 	public void OnDestory(){
-		allGlows.Remove(this);
+		allSizePulses.Remove(this);
 	}
 
 
 	public static void Synchronize(){
-		foreach(Glow glow in allGlows){
-			glow.pulseTimer = 0;
+		foreach(SizePulse sizePulse in allSizePulses){
+			sizePulse.pulseTimer = 0;
 		}
 
 	}

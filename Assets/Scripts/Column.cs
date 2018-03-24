@@ -65,9 +65,27 @@ public class Column : MonoBehaviour {
 			tile.column = this;
 			SpriteRenderer sr = placeholder.GetComponent<SpriteRenderer>();
 			tile.GetComponent<SpriteRenderer>().sprite = sr.sprite;
+
+
+			Haunting haunting = (Instantiate(Resources.Load("Prefabs/Haunting", typeof(GameObject))) 
+				as GameObject).GetComponent<Haunting>();
+			
+			haunting.transform.position = tile.transform.position;
+
+
+			tile.haunting = haunting;
+
+
+			//set state at the end
 			tile.SetState(placeholder.state);
 			tiles.Add(tile);
+
+
+
 			Destroy(sr);
+
+
+
 		}
 
 		//save reference to self to columns list; update the grid width

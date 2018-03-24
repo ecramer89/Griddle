@@ -63,14 +63,14 @@ public class GridTile : MonoBehaviour {
 
 	public Eye eye;
 
+	public Haunting haunting;
+
 	public GameObject glow;
 
 	private bool rotatingOut = false;
 
 	[HideInInspector]
 	public Connection[] outboundConnections;
-
-
 
 
 
@@ -222,24 +222,28 @@ public class GridTile : MonoBehaviour {
 				sprite.enabled = false;
 				glow.SetActive(false);
 				eye.gameObject.SetActive(false);
+				haunting.Deactivate();
 
 			break;
 			case TileState.ON:
 				sprite.color =  Settings.global.tileOnColor;
 				glow.SetActive(true);
-				glow.GetComponent<SpriteRenderer>().color = sprite.color;
+				haunting.Deactivate();
 				eye.Open();
-			    
 			break;
 			case TileState.OFF:
 				sprite.color =  Settings.global.tileOffColor;
 				glow.SetActive(false);
+				haunting.Activate();
 				eye.Close();
-				glow.GetComponent<SpriteRenderer>().color = sprite.color;
+
 			break;
 	
 	
 		}
+
+		glow.GetComponent<SpriteRenderer>().color = sprite.color;
+		eye.GetComponent<SpriteRenderer>().color = sprite.color;
 
 	}
 		

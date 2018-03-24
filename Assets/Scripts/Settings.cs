@@ -8,6 +8,8 @@ public class Settings : MonoBehaviour {
 	public Color tileOffColor;
 	public Color tileOnColor;
 
+	public Sprite[] beasts;
+
 
 
 	public static Settings global;
