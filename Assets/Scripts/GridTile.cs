@@ -61,12 +61,6 @@ public class GridTile : MonoBehaviour {
 	public Column column;
 
 
-	public Eye eye;
-
-	public Haunting haunting;
-
-	public GameObject glow;
-
 	private bool rotatingOut = false;
 
 	[HideInInspector]
@@ -141,8 +135,7 @@ public class GridTile : MonoBehaviour {
 
 	public void BeginEndGameAnimation(){
 		if(state == TileState.NULL) {
-			GameObject.Destroy(glow);
-			GameObject.Destroy(eye.gameObject);
+
 			GameObject.Destroy(gameObject);
 		}
 
@@ -174,8 +167,8 @@ public class GridTile : MonoBehaviour {
 
 				rotatingOut = false;
 				GameObject.Destroy(gameObject);
-				GameObject.Destroy(eye.gameObject);
-				GameObject.Destroy(glow.gameObject);
+
+			
 				Game.instance.TileGameOverAnimationDone();
 			
 			}
@@ -220,30 +213,21 @@ public class GridTile : MonoBehaviour {
 		switch(this.state){
 			case TileState.NULL:
 				sprite.enabled = false;
-				glow.SetActive(false);
-				eye.gameObject.SetActive(false);
-				haunting.Deactivate();
 
 			break;
 			case TileState.ON:
 				sprite.color =  Settings.global.tileOnColor;
-				glow.SetActive(true);
-				haunting.Deactivate();
-				eye.Open();
+
 			break;
 			case TileState.OFF:
 				sprite.color =  Settings.global.tileOffColor;
-				glow.SetActive(false);
-				haunting.Activate();
-				eye.Close();
 
 			break;
 	
 	
 		}
 
-		glow.GetComponent<SpriteRenderer>().color = sprite.color;
-		eye.GetComponent<SpriteRenderer>().color = sprite.color;
+
 
 	}
 		

@@ -49,17 +49,10 @@ public class Column : MonoBehaviour {
 			tile.gameObject.transform.position = placeholder.gameObject.transform.position;
 			tile.y = i;
 			tile.x = this.x;
-			GameObject glow = (Instantiate(Resources.Load("Prefabs/Glow", typeof(GameObject))) 
-				as GameObject);
-			glow.transform.position=tile.transform.position;
-			tile.glow = glow;
+		
 			tile.directions = placeholder.GetDirections();
 
-			Eye eye = (Instantiate(Resources.Load("Prefabs/Eye", typeof(GameObject))) 
-				as GameObject).GetComponent<Eye>();
-			eye.transform.position=tile.transform.position;
-			eye.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder + 1;
-			tile.eye = eye;
+
 
 		
 			tile.column = this;
@@ -67,13 +60,7 @@ public class Column : MonoBehaviour {
 			tile.GetComponent<SpriteRenderer>().sprite = sr.sprite;
 
 
-			Haunting haunting = (Instantiate(Resources.Load("Prefabs/Haunting", typeof(GameObject))) 
-				as GameObject).GetComponent<Haunting>();
-			
-			haunting.center = tile.transform.position;
-
-
-			tile.haunting = haunting;
+		
 
 
 			//set state at the end
