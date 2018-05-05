@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour {
 
+
 	public Color tileNullColor;
 	public Color tileOffColor;
 	public Color tileOnColor;
@@ -19,6 +20,10 @@ public class Settings : MonoBehaviour {
 	void Awake () {
 		global = this;
 	}
+
+
+
+
 	
 
 }

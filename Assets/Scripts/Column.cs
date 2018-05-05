@@ -70,7 +70,7 @@ public class Column : MonoBehaviour {
 			Haunting haunting = (Instantiate(Resources.Load("Prefabs/Haunting", typeof(GameObject))) 
 				as GameObject).GetComponent<Haunting>();
 			
-			haunting.transform.position = tile.transform.position;
+			haunting.center = tile.transform.position;
 
 
 			tile.haunting = haunting;
