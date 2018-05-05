@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileNullColor: {r: 0, g: 0, b: 0, a: 0}
-  tileOffColor: {r: 0.6012185, g: 0.5193015, b: 0.625, a: 1}
-  tileOnColor: {r: 0.9852941, g: 0.9709044, b: 0.85488755, a: 1}
+  tileOffColor: {r: 0.4905885, g: 0.33153117, b: 0.53676474, a: 1}
+  tileOnColor: {r: 0.08028765, g: 0.99264705, b: 0.23759103, a: 1}
   beasts:
   - {fileID: 21300000, guid: 2f05735518e2b4eb48a414843446e17a, type: 3}
   - {fileID: 21300000, guid: 1ba67ea64d98342db9c1dc8c8ac16b12, type: 3}

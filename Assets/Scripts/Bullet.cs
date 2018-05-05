@@ -5,7 +5,7 @@ using System;
 
 public class Bullet : MonoBehaviour {
 
-	public float unitsPerSecond = 1000f;
+	public float unitsPerSecond = 500;
 	public float pointDiam = 1f;
 
 	private GameObject target;

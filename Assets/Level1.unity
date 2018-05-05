@@ -379,36 +379,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
-        type: 2}
-      propertyPath: tileOffColor.r
-      value: 0.4905885
-      objectReference: {fileID: 0}
-    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
-        type: 2}
-      propertyPath: tileOffColor.g
-      value: 0.33153117
-      objectReference: {fileID: 0}
-    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
-        type: 2}
-      propertyPath: tileOffColor.b
-      value: 0.53676474
-      objectReference: {fileID: 0}
-    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
-        type: 2}
-      propertyPath: tileOnColor.r
-      value: 0.08028765
-      objectReference: {fileID: 0}
-    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
-        type: 2}
-      propertyPath: tileOnColor.g
-      value: 0.99264705
-      objectReference: {fileID: 0}
-    - target: {fileID: 114144689418418486, guid: 6876d3dcbdd194eb99e8388d035b96bd,
-        type: 2}
-      propertyPath: tileOnColor.b
-      value: 0.23759103
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6876d3dcbdd194eb99e8388d035b96bd, type: 2}
   m_IsPrefabParent: 0
@@ -1043,7 +1013,8 @@ Prefab:
         type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 21300000, guid: 39f18df612d00478ab47a183f3ea58e2,
+        type: 3}
     - target: {fileID: 212025520946171384, guid: 3b2b18b00011544a3ac89d6d2a6e4cd6,
         type: 2}
       propertyPath: m_Color.r
