@@ -43,6 +43,7 @@ public class Game : MonoBehaviour {
 			CollapseBrokenConnections(tile);
 		}
 		if(Input.GetMouseButtonDown(1)){
+			PlayerRecord.instance.LogMove();
 			ToggleReachable(tile);
 			RecolorConnections(tile);
 			CheckWin();
@@ -237,7 +238,7 @@ public class Game : MonoBehaviour {
 			}
 
 
-
+			PlayerRecord.instance.TryUpdateBestCount();
 
 		}
 
