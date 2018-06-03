@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.UI;
 
 public class LevelSelectButton : MonoBehaviour {
 
 	public int level;
+	public GameObject bestMovesText;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +22,16 @@ public class LevelSelectButton : MonoBehaviour {
 			GetComponent<SpriteRenderer>().color = dark;
 
 		}
+
+
+		if(ReferenceEquals(bestMovesText, null)) {
+			Debug.Log(String.Format("ERROR! Level select button with uninitialized best moves text: {0}",this.level));
+			return;
+		}
+
+
+		this.bestMovesText.GetComponent<Text>().text = String.Format("{0}",PlayerRecord.instance.GetBestMoveCount(level));
+
 	}
 	
 

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212312439586242274}
   - component: {fileID: 58200266304392384}
   - component: {fileID: 114168329432742184}
+  - component: {fileID: 114331584304985884}
   m_Layer: 0
   m_Name: lvl_select_button
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1717435239464892}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.4, y: 3.516, z: 0}
+  m_LocalPosition: {x: -2.0622303, y: 1.0390487, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -68,7 +69,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d4e58938dd64ff1a1ffc027f5812c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
+  sceneName: Level1
+--- !u!114 &114331584304985884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1717435239464892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e96538dcd51644b385099ccfecf7662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
 --- !u!212 &212312439586242274
 SpriteRenderer:
   m_ObjectHideFlags: 1
