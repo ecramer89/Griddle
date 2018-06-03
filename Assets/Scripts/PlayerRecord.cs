@@ -8,7 +8,8 @@ using System;
 public class PlayerRecord : MonoBehaviour {
 
 	public static PlayerRecord instance;
-	private Dictionary<string, int> levelsToBestMoves;
+	private Dictionary<int, int> levelsToBestMoves;
+	private int numLevels = 3;
 
 	private int currentMoveCount;
 
@@ -16,17 +17,21 @@ public class PlayerRecord : MonoBehaviour {
 	void Awake(){
 		instance = this;
 	}
+
+
 	// Use this for initialization
 	void Start () {
 		//todo; should initialize self from data in player prefs, in the level select menu (or a pre title screen).
 
-		levelsToBestMoves = new Dictionary<string,int>();
+		levelsToBestMoves = new Dictionary<int,int>();
 
-		for(int i=0;i<SceneManager.sceneCount;i++){
-			Scene scene = SceneManager.GetSceneAt(i);
-			if(Regex.IsMatch(scene.name, "Level\\d+")){
-				levelsToBestMoves[scene.name]= 0;
-			}
+		//seed with 0 having a non 0 best move count to avoid special logic for initializing level 1 scene button
+		levelsToBestMoves.Add(0, 1);
+
+		for(int i=1;i<=numLevels;i++){
+	
+			levelsToBestMoves[i]= 0;
+
 		}
 
 
@@ -46,13 +51,36 @@ public class PlayerRecord : MonoBehaviour {
 	}
 
 
+	private int GetCurrentSceneLevel(){
+
+		int lvl;
+		if(!Int32.TryParse(Regex.Match(SceneManager.GetActiveScene().name, "\\d+").Value, out lvl)) return 0;
+		return lvl;
+	}
+
+
+	public int GetBestMoveCount(int lvl){
+		int result;
+		if(!levelsToBestMoves.TryGetValue(lvl, out result)) throw new ArgumentOutOfRangeException(String.Format("Invalid level passed to PlayerRecord.GetBestMoveCount: {0}", lvl));
+		return result;
+	
+	
+	}
+
+
+	public bool HasBeaten(int lvl){
+		return GetBestMoveCount(lvl) > 0;
+	}
+
+
 	public void TryUpdateBestCount(){
 		int currentBestMoves;
-		String currentLevel = SceneManager.GetActiveScene().name;
-		if(!levelsToBestMoves.TryGetValue(currentLevel, out currentBestMoves)) return;
+		int lvl = GetCurrentSceneLevel();
+
+		if(!levelsToBestMoves.TryGetValue(lvl, out currentBestMoves)) return;
 
 		if(currentBestMoves < currentMoveCount){
-			levelsToBestMoves[currentLevel]=currentMoveCount;
+			levelsToBestMoves[lvl]=currentMoveCount;
 			Debug.Log(String.Format("Updated best move count: {0} now {1}", currentBestMoves, currentMoveCount));
 			return;
 		}

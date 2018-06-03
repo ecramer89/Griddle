@@ -269,6 +269,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 103e5a5355d6d44bc89a62dbbee8ae17, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &270574841 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1717435239464892, guid: 103e5a5355d6d44bc89a62dbbee8ae17,
+    type: 2}
+  m_PrefabInternal: {fileID: 270574840}
+--- !u!114 &270574842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 270574841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e96538dcd51644b385099ccfecf7662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 3
 --- !u!1 &387320333
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,48 +490,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 103e5a5355d6d44bc89a62dbbee8ae17, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1380456431
-Prefab:
+--- !u!1 &1134914404 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1717435239464892, guid: 103e5a5355d6d44bc89a62dbbee8ae17,
+    type: 2}
+  m_PrefabInternal: {fileID: 1134914403}
+--- !u!114 &1134914405
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1.6671771
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -2.0650303
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.06410143
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038439329349874, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: f89c8572de3a64c7992b1623d82cad0b, type: 2}
-  m_IsPrefabParent: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1134914404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e96538dcd51644b385099ccfecf7662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
 --- !u!1001 &1826737205
 Prefab:
   m_ObjectHideFlags: 0
@@ -566,6 +558,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 103e5a5355d6d44bc89a62dbbee8ae17, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1826737206 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1717435239464892, guid: 103e5a5355d6d44bc89a62dbbee8ae17,
+    type: 2}
+  m_PrefabInternal: {fileID: 1826737205}
+--- !u!114 &1826737207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1826737206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e96538dcd51644b385099ccfecf7662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 2
 --- !u!4 &1873374344 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4816684859727624, guid: 103e5a5355d6d44bc89a62dbbee8ae17,
